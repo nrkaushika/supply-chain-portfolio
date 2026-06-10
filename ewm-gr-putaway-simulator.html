@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAP EWM — Goods Receipt to Putaway Simulator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f5f4f0;
+      --bg3: #eeede9;
+      --text: #1a1a18;
+      --text2: #5f5e5a;
+      --text3: #888780;
+      --border: rgba(0,0,0,0.12);
+      --border2: rgba(0,0,0,0.22);
+      --blue-fill: #E6F1FB;
+      --blue-text: #0C447C;
+      --blue-bar: #B5D4F4;
+      --blue-mid: #185FA5;
+      --green-fill: #EAF3DE;
+      --green-text: #27500A;
+      --green-bar: #C0DD97;
+      --amber-fill: #FAEEDA;
+      --amber-text: #633806;
+      --amber-bar: #FAC775;
+      --gray-fill: #F1EFE8;
+      --gray-text: #444441;
+      --success: #3B6D11;
+      --success-fill: #EAF3DE;
+      --radius: 8px;
+      --radius-lg: 14px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1c; --bg2: #2a2a27; --bg3: #323230;
+        --text: #e8e6de; --text2: #9c9a92; --text3: #6e6c66;
+        --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+        --blue-fill: #042C53; --blue-text: #B5D4F4; --blue-bar: #185FA5;
+        --green-fill: #173404; --green-text: #C0DD97; --green-bar: #3B6D11;
+        --amber-fill: #412402; --amber-text: #FAC775; --amber-bar: #854F0B;
+        --gray-fill: #2C2C2A; --gray-text: #D3D1C7;
+        --success: #C0DD97; --success-fill: #173404;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg3); color: var(--text);
+      min-height: 100vh; padding: 24px 16px 60px;
+    }
+
+    .container { max-width: 780px; margin: 0 auto; }
+
+    header { margin-bottom: 28px; }
+    header h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+    header p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+    .badges { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge {
+      font-size: 11px; font-weight: 500; padding: 2px 10px;
+      border-radius: 99px; background: var(--blue-fill); color: var(--blue-text);
+    }
+    .badge.green { background: var(--green-fill); color: var(--green-text); }
+    .badge.amber { background: var(--amber-fill); color: var(--amber-text); }
+
+    /* Progress bar */
+    .progress-wrap { margin-bottom: 24px; }
+    .progress-steps {
+      display: flex; align-items: center; gap: 0;
+      position: relative; margin-bottom: 8px;
+    }
+    .progress-step {
+      display: flex; flex-direction: column; align-items: center;
+      flex: 1; position: relative; cursor: pointer;
+    }
+    .step-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; z-index: 1;
+      border: 2px solid var(--border2);
+      background: var(--bg2); color: var(--text3);
+      transition: all 0.25s;
+    }
+    .step-dot.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .step-dot.done { background: var(--green-bar); color: var(--green-text); border-color: var(--green-bar); }
+    .step-line {
+      position: absolute; top: 14px; left: 50%; right: -50%;
+      height: 2px; background: var(--border2); z-index: 0;
+    }
+    .step-line.done { background: var(--green-bar); }
+    .progress-step:last-child .step-line { display: none; }
+    .step-label {
+      font-size: 10px; color: var(--text3); margin-top: 5px;
+      text-align: center; max-width: 70px; line-height: 1.3;
+    }
+    .step-label.active { color: var(--text); font-weight: 500; }
+    .step-label.done { color: var(--green-text); }
+
+    /* Main card */
+    .card {
+      background: var(--bg); border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 28px 24px;
+      margin-bottom: 16px;
+    }
+
+    .step-header { margin-bottom: 20px; }
+    .step-number { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .step-title { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .step-desc { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+    .tx-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg2); border: 0.5px solid var(--border2);
+      border-radius: var(--radius); padding: 6px 12px;
+      font-size: 12px; color: var(--text2); margin-top: 10px; font-family: monospace;
+    }
+    .tx-badge span { font-weight: 600; color: var(--blue-text); }
+
+    /* Fields */
+    .fields { display: grid; gap: 14px; margin-top: 20px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+    .field label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 5px; font-weight: 500; }
+    .field input, .field select {
+      width: 100%; padding: 9px 12px; font-size: 13px;
+      background: var(--bg2); border: 0.5px solid var(--border2);
+      border-radius: var(--radius); color: var(--text); outline: none;
+      transition: border-color 0.15s;
+    }
+    .field input:focus, .field select:focus { border-color: var(--blue-bar); }
+    .field input[readonly] { opacity: 0.6; cursor: default; }
+    .field .hint { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+    /* Info box */
+    .info-box {
+      background: var(--blue-fill); border: 0.5px solid var(--blue-bar);
+      border-radius: var(--radius); padding: 14px 16px;
+      font-size: 13px; color: var(--blue-text); line-height: 1.7;
+      margin-top: 16px;
+    }
+    .info-box strong { font-weight: 600; }
+
+    /* Storage type search table */
+    .search-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .search-table th {
+      font-size: 11px; color: var(--text2); text-align: left;
+      padding: 7px 10px; border-bottom: 0.5px solid var(--border2); font-weight: 500;
+    }
+    .search-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--border); }
+    .search-table tr:last-child td { border-bottom: none; }
+    .search-row-active td { background: var(--green-fill); color: var(--green-text); font-weight: 500; }
+    .search-row-skip td { opacity: 0.45; text-decoration: line-through; }
+    .check { color: var(--success); font-weight: 600; }
+    .cross { color: #A32D2D; }
+
+    /* Bin grid */
+    .bin-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 12px; }
+    .bin-cell {
+      height: 42px; border-radius: 6px; display: flex; align-items: center;
+      justify-content: center; font-size: 10px; font-weight: 600;
+      border: 0.5px solid var(--border);
+    }
+    .bin-occupied { background: var(--bg2); color: var(--text3); }
+    .bin-selected { background: var(--green-bar); color: var(--green-text); border-color: var(--green-bar); font-size: 11px; }
+    .bin-available { background: var(--blue-fill); color: var(--blue-text); }
+
+    /* Summary */
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    @media (max-width: 500px) { .summary-grid { grid-template-columns: 1fr; } }
+    .summary-item {
+      background: var(--bg2); border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .summary-label { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+    .summary-value { font-size: 14px; font-weight: 500; }
+
+    .flow-visual {
+      display: flex; flex-direction: column; gap: 0; margin: 20px 0;
+    }
+    .flow-item {
+      display: flex; align-items: flex-start; gap: 14px; padding: 12px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .flow-item:last-child { border-bottom: none; }
+    .flow-num {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      background: var(--green-bar); color: var(--green-text);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; margin-top: 1px;
+    }
+    .flow-content { flex: 1; }
+    .flow-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .flow-detail { font-size: 12px; color: var(--text2); }
+    .flow-tx { font-size: 11px; font-family: monospace; color: var(--blue-text); margin-top: 3px; }
+
+    .success-banner {
+      background: var(--success-fill); border: 0.5px solid var(--green-bar);
+      border-radius: var(--radius-lg); padding: 20px 24px; text-align: center; margin-bottom: 20px;
+    }
+    .success-banner h2 { font-size: 18px; font-weight: 600; color: var(--success); margin-bottom: 4px; }
+    .success-banner p { font-size: 13px; color: var(--text2); }
+
+    /* Buttons */
+    .btn-row { display: flex; gap: 10px; margin-top: 24px; align-items: center; }
+    .btn {
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      border: 0.5px solid var(--border2); border-radius: var(--radius);
+      background: var(--bg); color: var(--text); cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn:hover { background: var(--bg2); }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--text); color: var(--bg); border-color: var(--text);
+      flex: 1; padding: 12px; font-size: 14px;
+    }
+    .btn-primary:hover { opacity: 0.88; background: var(--text); }
+    .btn-ghost { background: none; border: none; font-size: 13px; color: var(--text3); cursor: pointer; padding: 10px 0; }
+    .btn-ghost:hover { color: var(--text2); }
+
+    footer {
+      text-align: center; font-size: 12px; color: var(--text3); margin-top: 40px;
+    }
+    footer a { color: inherit; }
+
+    .mono { font-family: "SF Mono", "Fira Code", monospace; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>SAP EWM — Goods Receipt to Putaway Simulator</h1>
+    <p>Walk through a complete inbound delivery flow in SAP Extended Warehouse Management.<br>
+    Each step shows the EWM transaction, system logic, and decision criteria.</p>
+    <div class="badges">
+      <span class="badge">SAP EWM</span>
+      <span class="badge green">Inbound Process</span>
+      <span class="badge amber">Putaway Strategy</span>
+    </div>
+  </header>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-steps" id="progress-steps"></div>
+  </div>
+
+  <!-- Step card -->
+  <div class="card" id="step-card"></div>
+
+  <footer>
+    SAP EWM Goods Receipt &amp; Putaway Simulator &mdash;
+    Kaushika Naik Ramavatu &middot; MS Technology Management, UIUC Gies &middot;
+    <a href="https://kaushikanaikr.substack.com">The Flow of Things</a>
+  </footer>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    id: 'inbound-delivery',
+    title: 'Inbound Delivery Created',
+    desc: 'An inbound delivery notification is sent from the vendor or created manually in EWM. This triggers the warehouse to prepare for receipt — assigning a door, staging area, and expected arrival window.',
+    tx: 'VL31N / /SCWM/PRDI',
+    fields: [
+      { id: 'vendor', label: 'Vendor name', type: 'text', default: 'Abbott Laboratories', hint: 'Vendor in SAP business partner master' },
+      { id: 'delivery-no', label: 'Inbound delivery number', type: 'text', default: '1800042371', hint: 'EWM delivery document number' },
+      { id: 'material', label: 'Material / SKU', type: 'text', default: 'IV Saline 500ml', hint: 'Material master number or description' },
+      { id: 'qty', label: 'Expected quantity', type: 'number', default: '200', hint: 'In base unit of measure (EA)' },
+      { id: 'door', label: 'Goods receipt door', type: 'select', options: ['Door 1 — Inbound', 'Door 2 — Inbound', 'Door 3 — Cross-dock'], default: 0 },
+      { id: 'arrival', label: 'Expected arrival', type: 'text', default: '09:00 — 11:00', hint: 'Delivery window' },
+    ],
+    info: '<strong>EWM logic:</strong> On delivery creation, EWM checks the vendor master for default unloading points and staging areas. The delivery is assigned to a warehouse request (WR), which is the EWM internal document that drives all subsequent warehouse tasks.'
+  },
+  {
+    id: 'gr-posting',
+    title: 'Goods Receipt Posted',
+    desc: 'The physical goods arrive and are unloaded. A warehouse operator scans or confirms the receipt against the inbound delivery. EWM posts the GR, updates stock quantities, and creates a putaway transfer order.',
+    tx: 'MIGO (MM-IM) / /SCWM/GR',
+    fields: [
+      { id: 'gr-doc', label: 'GR document number', type: 'text', default: '5000112847', hint: 'Material document posted in MM-IM' },
+      { id: 'actual-qty', label: 'Actual quantity received', type: 'number', default: '200', hint: 'Must match or trigger under/over-delivery tolerance check' },
+      { id: 'batch', label: 'Batch number', type: 'text', default: 'BT-2026-0609', hint: 'Required for pharma / regulated goods' },
+      { id: 'expiry', label: 'Expiry date', type: 'text', default: '2028-06-30', hint: 'Shelf life check triggered if configured' },
+      { id: 'staging', label: 'Staging area', type: 'select', options: ['GR-STG-01', 'GR-STG-02', 'GR-STG-03'], default: 0 },
+      { id: 'condition', label: 'Goods condition', type: 'select', options: ['OK — proceed to putaway', 'Damaged — Quality hold', 'Short delivery — partial GR'], default: 0 },
+    ],
+    info: '<strong>EWM logic:</strong> GR posting creates a warehouse request (type: putaway). EWM checks available stock, batch classification, and shelf life. If condition is flagged, the stock goes to a quality inspection storage type — not directly to putaway bins.'
+  },
+  {
+    id: 'to-creation',
+    title: 'Transfer Order Created',
+    desc: 'EWM automatically creates a putaway Transfer Order (TO). The TO contains the source (staging area), destination (bin to be determined), material, quantity, and handling unit. A warehouse operator is assigned to execute it.',
+    tx: '/SCWM/TO_CREATE / LT0A',
+    fields: [
+      { id: 'to-no', label: 'Transfer order number', type: 'text', default: 'TO-2026-004821', hint: 'EWM warehouse task / transfer order' },
+      { id: 'hu', label: 'Handling unit (HU)', type: 'text', default: 'HU-00921', hint: 'Pallet or carton ID — scanned during putaway' },
+      { id: 'source-bin', label: 'Source bin (staging)', type: 'text', default: 'GR-STG-01 / BIN-001', hint: 'Where goods currently sit after GR', readonly: true },
+      { id: 'weight', label: 'Total weight (kg)', type: 'number', default: '120', hint: '200 EA × 0.6 kg each' },
+      { id: 'operator', label: 'Assigned operator', type: 'text', default: 'WH-OP-07 / Ravi Kumar', hint: 'Warehouse worker assigned the TO' },
+      { id: 'priority', label: 'Putaway priority', type: 'select', options: ['Normal', 'High — time-critical', 'Low — defer'], default: 0 },
+    ],
+    info: '<strong>EWM logic:</strong> The TO triggers the putaway strategy defined for the storage type / product category. EWM now evaluates the storage type search sequence to find the best available bin. This is the most critical step — the wrong strategy here causes slotting inefficiency.'
+  },
+  {
+    id: 'storage-type-search',
+    title: 'Storage Type Search Sequence',
+    desc: 'EWM evaluates storage types in priority order to find the optimal putaway bin. Each storage type is checked against capacity, weight, temperature zone, and product category rules. The first match wins.',
+    tx: 'SPRO → EWM → Putaway Strategy',
+    fields: [],
+    search: true,
+    info: '<strong>EWM logic:</strong> The search sequence is configured in SPRO under Warehouse Management → Putaway Control → Storage Type Search. Each warehouse product group gets its own sequence. This is where slotting strategy is operationalized — Zone A types always come first.'
+  },
+  {
+    id: 'bin-determination',
+    title: 'Bin Determined',
+    desc: 'Within the selected storage type, EWM determines the exact bin using the putaway rule (e.g. next empty bin, fixed bin, addition to existing stock). The system checks bin capacity, weight limit, and mixed storage rules.',
+    tx: '/SCWM/BIN / LX04',
+    fields: [
+      { id: 'storage-type', label: 'Selected storage type', type: 'text', default: 'LG01 — Zone A (high-velocity)', readonly: true },
+      { id: 'putaway-rule', label: 'Putaway rule applied', type: 'text', default: 'Next empty bin — sorted by aisle', readonly: true },
+      { id: 'dest-bin', label: 'Destination bin assigned', type: 'text', default: 'A-07 / Aisle 1 / Level 2', hint: 'Final putaway location' },
+      { id: 'bin-capacity', label: 'Bin capacity remaining', type: 'text', default: '80 kg / 60% utilized', hint: 'After this putaway' },
+      { id: 'max-weight', label: 'Bin max weight (kg)', type: 'number', default: '200', hint: 'Physical limit of the rack' },
+      { id: 'mixed', label: 'Mixed storage allowed?', type: 'select', options: ['No — single material per bin', 'Yes — mixed materials allowed'], default: 0 },
+    ],
+    info: '<strong>EWM logic:</strong> Bin determination uses the putaway rule configured on the storage type. "Next empty bin" is most common. For fixed bin putaway (common in pharma), the bin is pre-assigned in the material master. EWM checks physical capacity before confirming.'
+  },
+  {
+    id: 'confirmation',
+    title: 'Warehouse Task Confirmed',
+    desc: 'The operator physically moves the goods to bin A-07 and confirms the transfer order — either by scanning the bin barcode or RF confirmation. EWM updates bin stock, closes the transfer order, and posts the final stock movement.',
+    tx: '/SCWM/TO_CONF / LT1A',
+    fields: [
+      { id: 'confirm-method', label: 'Confirmation method', type: 'select', options: ['RF scanner — bin barcode scan', 'EWM monitor — manual confirm', 'Auto-confirm (conveyor system)'], default: 0 },
+      { id: 'confirm-qty', label: 'Confirmed quantity', type: 'number', default: '200', hint: 'Must match TO quantity (or triggers difference handling)' },
+      { id: 'confirm-bin', label: 'Confirmed bin', type: 'text', default: 'A-07', readonly: true },
+      { id: 'stock-type', label: 'Stock type after putaway', type: 'select', options: ['Unrestricted use', 'Quality inspection', 'Blocked'], default: 0 },
+      { id: 'confirm-time', label: 'Confirmation timestamp', type: 'text', default: new Date().toLocaleString(), hint: 'System timestamp' },
+      { id: 'notes', label: 'Notes', type: 'text', default: '', hint: 'Optional operator notes' },
+    ],
+    info: '<strong>EWM logic:</strong> Confirmation triggers a stock posting in EWM (and optionally in MM-IM via goods movement). The bin stock record is updated. The inbound delivery is marked complete. The warehouse request is closed. The full GR → Putaway cycle is done.'
+  }
+];
+
+const SEARCH_SEQUENCE = [
+  { type: 'LG01', name: 'Zone A — High-velocity', temp: 'Ambient', cap: '200 kg', result: 'pass', reason: 'Weight OK (120kg < 200kg), ambient, capacity available' },
+  { type: 'LG02', name: 'Zone B — Mid-velocity',  temp: 'Ambient', cap: '300 kg', result: 'skip', reason: 'Skipped — LG01 matched first' },
+  { type: 'LG03', name: 'Zone C — Low-velocity',  temp: 'Ambient', cap: '500 kg', result: 'skip', reason: 'Skipped — LG01 matched first' },
+  { type: 'LG04', name: 'Zone D — Bulk storage',  temp: 'Ambient', cap: '1000 kg',result: 'skip', reason: 'Skipped — LG01 matched first' },
+];
+
+const BIN_GRID = [
+  { id: 'A-01', status: 'occupied' }, { id: 'A-02', status: 'occupied' },
+  { id: 'A-03', status: 'available'}, { id: 'A-04', status: 'occupied' },
+  { id: 'A-05', status: 'available'}, { id: 'A-06', status: 'occupied' },
+  { id: 'A-07', status: 'selected' }, { id: 'A-08', status: 'available'},
+  { id: 'A-09', status: 'occupied' }, { id: 'A-10', status: 'occupied' },
+  { id: 'A-11', status: 'available'}, { id: 'A-12', status: 'available'},
+];
+
+let currentStep = 0;
+const savedData = {};
+
+function buildProgress() {
+  const labels = ['Inbound delivery', 'GR posting', 'Transfer order', 'Storage search', 'Bin determined', 'Confirmed'];
+  const el = document.getElementById('progress-steps');
+  el.innerHTML = STEPS.map((s, i) => `
+    <div class="progress-step" onclick="jumpTo(${i})">
+      <div class="step-dot ${i < currentStep ? 'done' : i === currentStep ? 'active' : ''}"
+           id="dot-${i}">${i < currentStep ? '✓' : i + 1}</div>
+      <div class="step-line ${i < currentStep ? 'done' : ''}" id="line-${i}"></div>
+      <div class="step-label ${i < currentStep ? 'done' : i === currentStep ? 'active' : ''}"
+           id="label-${i}">${labels[i]}</div>
+    </div>`).join('');
+}
+
+function jumpTo(i) {
+  if (i > currentStep) return;
+  currentStep = i;
+  buildProgress();
+  renderStep();
+}
+
+function renderStep() {
+  const s = STEPS[currentStep];
+  const saved = savedData[s.id] || {};
+  let html = `
+    <div class="step-header">
+      <div class="step-number">Step ${currentStep + 1} of ${STEPS.length}</div>
+      <div class="step-title">${s.title}</div>
+      <div class="step-desc">${s.desc}</div>
+      <div class="tx-badge">EWM transaction: <span>${s.tx}</span></div>
+    </div>`;
+
+  if (s.search) {
+    html += `
+      <div class="section-label" style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Storage type search sequence evaluation</div>
+      <table class="search-table">
+        <thead><tr><th>Priority</th><th>Storage type</th><th>Description</th><th>Temp zone</th><th>Max weight</th><th>Result</th><th>Notes</th></tr></thead>
+        <tbody>
+          ${SEARCH_SEQUENCE.map((r, i) => `
+            <tr class="${r.result === 'pass' ? 'search-row-active' : 'search-row-skip'}">
+              <td>${i + 1}</td>
+              <td class="mono">${r.type}</td>
+              <td>${r.name}</td>
+              <td>${r.temp}</td>
+              <td>${r.cap}</td>
+              <td>${r.result === 'pass' ? '<span class="check">✓ Selected</span>' : '<span class="cross">— Skip</span>'}</td>
+              <td style="font-size:12px">${r.reason}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  if (s.fields && s.fields.length > 0) {
+    html += `<div class="fields">`;
+    for (let i = 0; i < s.fields.length; i += 2) {
+      const f1 = s.fields[i], f2 = s.fields[i + 1];
+      html += `<div class="field-row">`;
+      html += renderField(f1, saved);
+      if (f2) html += renderField(f2, saved);
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (currentStep === 4) {
+    html += `
+      <div style="margin-top:16px;font-size:12px;color:var(--text2);margin-bottom:8px">Bin availability in Zone A (LG01)</div>
+      <div class="bin-grid">
+        ${BIN_GRID.map(b => `
+          <div class="bin-cell ${b.status === 'selected' ? 'bin-selected' : b.status === 'available' ? 'bin-available' : 'bin-occupied'}">
+            ${b.id}${b.status === 'selected' ? ' ✓' : ''}
+          </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:14px;margin-top:8px;font-size:11px;color:var(--text3)">
+        <span>■ <span style="color:var(--green-text)">Selected (A-07)</span></span>
+        <span>■ <span style="color:var(--blue-text)">Available</span></span>
+        <span>■ <span style="color:var(--text3)">Occupied</span></span>
+      </div>`;
+  }
+
+  html += `<div class="info-box">${s.info}</div>`;
+
+  html += `<div class="btn-row">`;
+  if (currentStep > 0) html += `<button class="btn" onclick="prevStep()">← Back</button>`;
+  if (currentStep < STEPS.length - 1) {
+    html += `<button class="btn btn-primary" onclick="nextStep()">Continue →</button>`;
+  } else {
+    html += `<button class="btn btn-primary" onclick="showSummary()">Complete GR & Putaway ✓</button>`;
+  }
+  html += `</div>`;
+
+  document.getElementById('step-card').innerHTML = html;
+}
+
+function renderField(f, saved) {
+  const val = saved[f.id] !== undefined ? saved[f.id] : f.default || '';
+  let input = '';
+  if (f.type === 'select') {
+    input = `<select id="f-${f.id}">${f.options.map((o, i) => `<option ${i === (saved[f.id] !== undefined ? saved[f.id] : f.default || 0) ? 'selected' : ''}>${o}</option>`).join('')}</select>`;
+  } else {
+    input = `<input type="${f.type}" id="f-${f.id}" value="${val}" ${f.readonly ? 'readonly' : ''} placeholder="${f.hint || ''}">`;
+  }
+  return `<div class="field"><label>${f.label}</label>${input}${f.hint && !f.readonly ? `<div class="hint">${f.hint}</div>` : ''}</div>`;
+}
+
+function saveCurrentStep() {
+  const s = STEPS[currentStep];
+  if (!s.fields) return;
+  savedData[s.id] = {};
+  s.fields.forEach(f => {
+    const el = document.getElementById('f-' + f.id);
+    if (el) savedData[s.id][f.id] = f.type === 'select' ? el.selectedIndex : el.value;
+  });
+}
+
+function nextStep() {
+  saveCurrentStep();
+  if (currentStep < STEPS.length - 1) { currentStep++; buildProgress(); renderStep(); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevStep() {
+  saveCurrentStep();
+  if (currentStep > 0) { currentStep--; buildProgress(); renderStep(); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showSummary() {
+  saveCurrentStep();
+  const d = savedData;
+  const gr = d['inbound-delivery'] || {};
+  const confirm = d['confirmation'] || {};
+
+  const summaryItems = [
+    { label: 'Vendor', value: document.getElementById('f-vendor')?.value || 'Abbott Laboratories' },
+    { label: 'Material', value: document.getElementById('f-material')?.value || 'IV Saline 500ml' },
+    { label: 'Quantity received', value: '200 EA' },
+    { label: 'Destination bin', value: 'A-07 / Zone A / LG01' },
+    { label: 'Batch', value: 'BT-2026-0609' },
+    { label: 'Stock type', value: 'Unrestricted use' },
+    { label: 'Putaway strategy', value: 'Next empty bin — Zone A priority' },
+    { label: 'Estimated travel saving', value: '~35% vs random slotting' },
+  ];
+
+  const flowSummary = STEPS.map((s, i) => ({
+    title: s.title, tx: s.tx,
+    detail: [
+      'Delivery 1800042371 — Abbott Laboratories',
+      'GR doc 5000112847 — 200 EA confirmed',
+      'TO-2026-004821 — HU-00921 assigned',
+      'LG01 (Zone A) selected — highest priority match',
+      'Bin A-07 assigned — 120kg within 200kg limit',
+      'RF confirmed — stock posted as unrestricted',
+    ][i]
+  }));
+
+  let html = `
+    <div class="success-banner">
+      <h2>✓ GR &amp; Putaway Complete</h2>
+      <p>200 EA of IV Saline 500ml successfully received and putaway to bin A-07 (Zone A).</p>
+    </div>
+    <div class="section-label" style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Summary</div>
+    <div class="summary-grid">
+      ${summaryItems.map(item => `
+        <div class="summary-item">
+          <div class="summary-label">${item.label}</div>
+          <div class="summary-value">${item.value}</div>
+        </div>`).join('')}
+    </div>
+    <div class="section-label" style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;margin-top:20px">Full process flow</div>
+    <div class="flow-visual">
+      ${flowSummary.map((f, i) => `
+        <div class="flow-item">
+          <div class="flow-num">${i + 1}</div>
+          <div class="flow-content">
+            <div class="flow-name">${f.title}</div>
+            <div class="flow-detail">${f.detail}</div>
+            <div class="flow-tx">${f.tx}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="info-box">
+      <strong>What this demonstrates:</strong> A complete EWM inbound flow — from vendor delivery notification through GR posting, transfer order creation, storage type search sequence evaluation, bin determination, and warehouse task confirmation. In a live SAP system, steps 3–5 can be automated via EWM's putaway strategy configuration (SPRO → EWM → Goods Receipt Processing → Putaway Control).
+    </div>
+    <div class="btn-row" style="margin-top:20px">
+      <button class="btn btn-primary" onclick="restart()">Run another simulation →</button>
+    </div>`;
+
+  document.getElementById('step-card').innerHTML = html;
+  document.getElementById('progress-steps').querySelectorAll('.step-dot').forEach(d => { d.classList.add('done'); d.textContent = '✓'; });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  currentStep = 0;
+  Object.keys(savedData).forEach(k => delete savedData[k]);
+  buildProgress();
+  renderStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+buildProgress();
+renderStep();
+</script>
+</body>
+</html>
