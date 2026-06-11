@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAP EWM Supply Chain Portfolio — Kaushika Naik Ramavatu</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0f1117; --bg2:#1a1d27; --bg3:#222638;
+      --text:#e8e9f0; --text2:#9496a8; --text3:#5c5f75;
+      --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+      --accent:#6366f1; --accent2:#818cf8;
+      --radius:10px; --radius-lg:16px;
+    }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    a { text-decoration:none; }
+
+    nav { padding:16px 40px; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:rgba(15,17,23,0.92); backdrop-filter:blur(12px); z-index:100; }
+    .nav-logo { font-size:14px; font-weight:600; color:var(--text); }
+    .nav-links { display:flex; gap:24px; align-items:center; }
+    .nav-links a { font-size:13px; color:var(--text2); transition:color .15s; }
+    .nav-links a:hover { color:var(--text); }
+    .nav-cta { font-size:12px; font-weight:500; background:var(--accent); color:#fff !important; padding:6px 14px; border-radius:6px; }
+
+    .hero { max-width:860px; margin:0 auto; padding:72px 40px 56px; text-align:center; }
+    .hero-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:500; color:var(--accent2); background:rgba(99,102,241,0.1); border:0.5px solid rgba(99,102,241,0.25); border-radius:99px; padding:4px 14px; margin-bottom:24px; }
+    .hero-dot { width:6px; height:6px; border-radius:50%; background:var(--accent2); animation:pulse 2s infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .hero h1 { font-size:42px; font-weight:700; letter-spacing:-.03em; line-height:1.15; margin-bottom:20px; background:linear-gradient(135deg,#e8e9f0 0%,#9496a8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero p { font-size:16px; color:var(--text2); line-height:1.75; max-width:580px; margin:0 auto 32px; }
+    .hero-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:40px; }
+    .hero-tag { font-size:12px; font-weight:500; padding:4px 12px; border-radius:99px; border:0.5px solid var(--border2); color:var(--text2); background:var(--bg2); }
+    .hero-tag.accent { border-color:rgba(99,102,241,0.4); color:var(--accent2); background:rgba(99,102,241,0.08); }
+    .stats { display:flex; justify-content:center; border:0.5px solid var(--border2); border-radius:var(--radius-lg); background:var(--bg2); overflow:hidden; max-width:540px; margin:0 auto 72px; }
+    .stat { flex:1; padding:18px 20px; text-align:center; border-right:0.5px solid var(--border2); }
+    .stat:last-child { border-right:none; }
+    .stat-value { font-size:22px; font-weight:700; color:var(--accent2); margin-bottom:4px; }
+    .stat-label { font-size:11px; color:var(--text3); }
+
+    .section { max-width:1000px; margin:0 auto; padding:0 40px 80px; }
+    .section-header { margin-bottom:28px; }
+    .section-header h2 { font-size:20px; font-weight:600; margin-bottom:6px; }
+    .section-header p { font-size:13px; color:var(--text2); }
+
+    .tools-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:700px){ .tools-grid { grid-template-columns:1fr; } }
+
+    .tool-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:24px 26px; color:var(--text); display:flex; flex-direction:column; gap:14px; transition:border-color .2s,transform .15s; position:relative; overflow:hidden; }
+    .tool-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+    .tool-card.indigo::before { background:linear-gradient(90deg,#6366f1,#818cf8); }
+    .tool-card.teal::before   { background:linear-gradient(90deg,#2dd4bf,#60a5fa); }
+    .tool-card.amber::before  { background:linear-gradient(90deg,#f59e0b,#f97316); }
+    .tool-card.purple::before { background:linear-gradient(90deg,#a78bfa,#ec4899); }
+    .tool-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+    .tool-top { display:flex; align-items:flex-start; justify-content:space-between; }
+    .tool-icon { font-size:28px; line-height:1; }
+    .tool-version { font-size:10px; font-weight:600; padding:2px 8px; border-radius:99px; background:var(--bg3); color:var(--text3); border:0.5px solid var(--border2); }
+    .tool-card h3 { font-size:16px; font-weight:600; margin-bottom:6px; }
+    .tool-card p  { font-size:13px; color:var(--text2); line-height:1.6; flex:1; }
+    .tool-tags { display:flex; gap:6px; flex-wrap:wrap; }
+    .tool-tag { font-size:11px; padding:2px 8px; border-radius:99px; background:var(--bg3); color:var(--text3); border:0.5px solid var(--border); }
+    .tool-footer { display:flex; align-items:center; justify-content:space-between; padding-top:12px; border-top:0.5px solid var(--border); font-size:12px; }
+    .tool-concepts { color:var(--text3); font-size:11px; }
+    .tool-open { color:var(--accent2); font-weight:500; }
+
+    .concepts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    @media(max-width:600px){ .concepts-grid{grid-template-columns:1fr 1fr;} }
+    .concept-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:14px 16px; }
+    .concept-name { font-size:12px; font-weight:600; color:var(--accent2); margin-bottom:4px; }
+    .concept-desc { font-size:11px; color:var(--text3); line-height:1.5; }
+
+    .about-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:28px 32px; display:grid; grid-template-columns:1fr auto; gap:24px; align-items:center; }
+    @media(max-width:600px){ .about-card{grid-template-columns:1fr;} }
+    .about-card h3 { font-size:17px; font-weight:600; margin-bottom:8px; }
+    .about-card p  { font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:14px; }
+    .about-links { display:flex; gap:10px; flex-wrap:wrap; }
+    .about-link { font-size:12px; font-weight:500; padding:6px 14px; border-radius:6px; border:0.5px solid var(--border2); color:var(--text2); background:var(--bg3); transition:color .15s; }
+    .about-link:hover { color:var(--text); }
+    .about-link.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .cert-badge { background:var(--bg3); border:0.5px solid var(--border2); border-radius:var(--radius); padding:16px 20px; text-align:center; min-width:180px; }
+    .cert-icon { font-size:28px; margin-bottom:8px; }
+    .cert-name { font-size:12px; font-weight:600; margin-bottom:4px; }
+    .cert-sub  { font-size:11px; color:var(--text3); line-height:1.4; }
+
+    footer { border-top:0.5px solid var(--border); padding:24px 40px; text-align:center; font-size:12px; color:var(--text3); }
+    footer a { color:var(--text3); }
+    footer a:hover { color:var(--text2); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Supply Chain Portfolio</div>
+  <div class="nav-links">
+    <a href="#tools">Tools</a>
+    <a href="#concepts">EWM concepts</a>
+    <a href="#about">About</a>
+    <a href="https://kaushikanaikr.substack.com" target="_blank" class="nav-cta">The Flow of Things ↗</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow"><div class="hero-dot"></div>SAP EWM · Supply Chain Operations · Pharma</div>
+  <h1>Supply Chain Knowledge,<br>Made Interactive</h1>
+  <p>Four tools that demonstrate applied SAP Extended Warehouse Management (EWM) logic — built to show the thinking behind the certification, not just the acronym on a resume.</p>
+  <div class="hero-tags">
+    <span class="hero-tag accent">SAP S/4HANA EWM Certified</span>
+    <span class="hero-tag">MS Technology Management — UIUC Gies</span>
+    <span class="hero-tag">Warehouse Operations</span>
+    <span class="hero-tag">Pharma Supply Chain</span>
+    <span class="hero-tag">Demand Planning</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-value">4</div><div class="stat-label">Interactive tools</div></div>
+    <div class="stat"><div class="stat-value">5</div><div class="stat-label">EWM scenarios</div></div>
+    <div class="stat"><div class="stat-value">6</div><div class="stat-label">KPIs tracked</div></div>
+    <div class="stat"><div class="stat-value">V3</div><div class="stat-label">Latest version</div></div>
+  </div>
+</div>
+
+<div class="section" id="tools">
+  <div class="section-header">
+    <h2>Tools</h2>
+    <p>Each tool demonstrates a different layer of supply chain and warehouse management knowledge.</p>
+  </div>
+  <div class="tools-grid">
+
+    <a href="slotting-optimizer.html" class="tool-card indigo">
+      <div class="tool-top"><div class="tool-icon">🗂️</div><span class="tool-version">Latest</span></div>
+      <div>
+        <h3>Warehouse Slotting Optimizer</h3>
+        <p>Score SKUs by pick velocity, weight, and cold chain requirements — then assign optimal bin zones. Cold chain items isolated into a separate storage pool, mirroring SAP EWM storage type restrictions in the material master.</p>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">Putaway strategy</span>
+        <span class="tool-tag">Storage type search</span>
+        <span class="tool-tag">Cold chain isolation</span>
+        <span class="tool-tag">Zone A–D</span>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-concepts">EWM: LG01–LG05 · SPRO · Storage type search sequence</span>
+        <span class="tool-open">Open →</span>
+      </div>
+    </a>
+
+    <a href="ewm-gr-putaway-simulator-v3.html" class="tool-card teal">
+      <div class="tool-top"><div class="tool-icon">📦</div><span class="tool-version">V3</span></div>
+      <div>
+        <h3>GR to Putaway Simulator</h3>
+        <p>Walk through a complete Goods Receipt (GR) to putaway flow in SAP EWM. Five scenarios: normal GR, damaged goods (Quality Management hold), short delivery, cold chain, and near-expiry (FEFO). Batch number tracked across all six steps. Decision tree at summary.</p>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">GR posting</span>
+        <span class="tool-tag">Quality hold (LG09)</span>
+        <span class="tool-tag">FEFO routing</span>
+        <span class="tool-tag">Batch traceability</span>
+        <span class="tool-tag">Cold chain (LG05)</span>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-concepts">EWM: VL31N · MIGO · LT0A · QA32 · /SCWM/TO_CONF</span>
+        <span class="tool-open">Open →</span>
+      </div>
+    </a>
+
+    <a href="scm-kpi-dashboard.html" class="tool-card amber">
+      <div class="tool-top"><div class="tool-icon">📊</div><span class="tool-version">2025 Data</span></div>
+      <div>
+        <h3>Pharma Supply Chain KPI Dashboard</h3>
+        <p>Twelve months of simulated pharma supply chain data — supplier delay in February, flu season spike in April, new vendor in July, forecast miss in October. Six KPIs with trend charts, supplier performance, and SAP context for each metric.</p>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">OTIF</span>
+        <span class="tool-tag">Fill rate</span>
+        <span class="tool-tag">Inventory turnover</span>
+        <span class="tool-tag">MAPE</span>
+        <span class="tool-tag">Days of supply</span>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-concepts">SAP: MM-IM · APO/IBP · SD · S&OP</span>
+        <span class="tool-open">Open →</span>
+      </div>
+    </a>
+
+    <a href="ewm-gr-putaway-simulator.html" class="tool-card purple">
+      <div class="tool-top"><div class="tool-icon">🔄</div><span class="tool-version">V2 — Earlier iteration</span></div>
+      <div>
+        <h3>GR to Putaway Simulator — V2</h3>
+        <p>The previous version — kept to show the iteration process. V2 introduced quality hold routing and auto weight calculation. V3 added scenario selector, FEFO routing, batch traceability, and the decision tree.</p>
+      </div>
+      <div class="tool-tags">
+        <span class="tool-tag">Quality hold</span>
+        <span class="tool-tag">Auto weight calc</span>
+        <span class="tool-tag">Short delivery</span>
+      </div>
+      <div class="tool-footer">
+        <span class="tool-concepts">Earlier iteration — see V3 for latest</span>
+        <span class="tool-open">Open →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="section" id="concepts">
+  <div class="section-header">
+    <h2>EWM concepts demonstrated</h2>
+    <p>Every tool is grounded in real SAP Extended Warehouse Management (EWM) logic — not just terminology.</p>
+  </div>
+  <div class="concepts-grid">
+    <div class="concept-card">
+      <div class="concept-name">Storage Type Search Sequence</div>
+      <div class="concept-desc">EWM evaluates storage types in priority order at putaway. LG01 (Zone A) checked first — first match wins. Configured in SPRO.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-name">Transfer Order (TO)</div>
+      <div class="concept-desc">EWM's internal movement instruction — source bin to destination bin, with material, quantity, batch, and handling unit. Confirmed via RF scanner.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-name">Quality Management (QM) Hold</div>
+      <div class="concept-desc">Damaged stock bypasses normal putaway and goes to LG09 (Quality Inspection). QA32 usage decision required before release.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-name">FEFO (First Expiry First Out)</div>
+      <div class="concept-desc">Near-expiry stock routed to LG08 and picked before standard stock regardless of receipt date. Mandatory in pharma regulated environments.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-name">Batch Traceability</div>
+      <div class="concept-desc">Batch tracked from GR through TO, bin determination, and confirmation. Required for pharma compliance and recall readiness.</div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-name">OTIF and Fill Rate</div>
+      <div class="concept-desc">On Time In Full (OTIF) and order fill rate are the primary KPIs on every supply chain analyst dashboard. Tracked monthly against targets.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="about">
+  <div class="section-header"><h2>About</h2></div>
+  <div class="about-card">
+    <div>
+      <h3>Kaushika Naik Ramavatu</h3>
+      <p>MS Technology Management, Gies College of Business, University of Illinois Urbana-Champaign (UIUC). SAP S/4HANA Supply Chain Execution and EWM certified. Writing about supply chain operations and warehouse management at The Flow of Things.</p>
+      <p>These tools were built to demonstrate applied EWM knowledge practically — not just as a certification line on a resume. Each iteration improved on gaps identified in the previous version, mirroring how real supply chain analysts approach process improvement.</p>
+      <div class="about-links">
+        <a href="https://linkedin.com/in/kaushika-naik-ramavatu" target="_blank" class="about-link primary">LinkedIn ↗</a>
+        <a href="https://kaushikanaikr.substack.com" target="_blank" class="about-link">The Flow of Things ↗</a>
+        <a href="https://github.com/nrkaushika/warehouse-slotting-optimizer" target="_blank" class="about-link">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="cert-badge">
+      <div class="cert-icon">🏆</div>
+      <div class="cert-name">SAP Certified</div>
+      <div class="cert-sub">S/4HANA Supply Chain Execution and Extended Warehouse Management (EWM)</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  SAP EWM Supply Chain Portfolio &mdash;
+  <a href="https://linkedin.com/in/kaushika-naik-ramavatu" target="_blank">Kaushika Naik Ramavatu</a> &middot;
+  MS Technology Management, UIUC Gies &middot;
+  <a href="https://kaushikanaikr.substack.com" target="_blank">The Flow of Things</a>
+</footer>
+
+</body>
+</html>
