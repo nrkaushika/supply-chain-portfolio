@@ -1,164 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAP EWM Supply Chain Portfolio — Kaushika Naik Ramavatu</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kaushika Naik — Supply Chain Portfolio</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:#0f1117; --bg2:#1a1d27; --bg3:#222638;
-      --text:#e8e9f0; --text2:#9496a8; --text3:#5c5f75;
-      --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
-      --accent:#6366f1; --accent2:#818cf8;
-      --radius:10px; --radius-lg:16px;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0f1117;--bg2:#1a1d27;--bg3:#222638;--bg4:#2a2f45;
+      --text:#e8e9f0;--text2:#9496a8;--text3:#5c5f75;
+      --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+      --accent:#6366f1;--accent2:#818cf8;--accent3:rgba(99,102,241,.1);
+      --green:#22c55e;--green-fill:rgba(34,197,94,.1);
+      --amber:#f59e0b;--amber-fill:rgba(245,158,11,.1);
+      --teal:#2dd4bf;--teal-fill:rgba(45,212,191,.1);
+      --red:#ef4444;
+      --r:8px;--rl:16px;
     }
-    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
-    a { text-decoration:none; }
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    a{text-decoration:none;color:inherit}
 
-    nav { padding:16px 40px; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:rgba(15,17,23,0.92); backdrop-filter:blur(12px); z-index:100; }
-    .nav-logo { font-size:14px; font-weight:600; color:var(--text); }
-    .nav-links { display:flex; gap:24px; align-items:center; }
-    .nav-links a { font-size:13px; color:var(--text2); transition:color .15s; }
-    .nav-links a:hover { color:var(--text); }
-    .nav-cta { font-size:12px; font-weight:500; background:var(--accent); color:#fff !important; padding:6px 14px; border-radius:6px; }
+    /* ── NAV ── */
+    nav{padding:14px 40px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(15,17,23,.94);backdrop-filter:blur(12px);z-index:100}
+    .nav-logo{font-size:14px;font-weight:600;color:var(--text)}
+    .nav-links{display:flex;gap:24px;align-items:center}
+    .nav-links a{font-size:13px;color:var(--text2);transition:color .15s}
+    .nav-links a:hover{color:var(--text)}
+    .nav-cta{font-size:12px;font-weight:500;background:var(--accent);color:#fff!important;padding:6px 14px;border-radius:6px;transition:opacity .15s}
+    .nav-cta:hover{opacity:.88}
+    @media(max-width:600px){.nav-links{gap:14px}.nav-links a:not(.nav-cta){display:none}}
 
-    .hero { max-width:860px; margin:0 auto; padding:72px 40px 56px; text-align:center; }
-    .hero-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:500; color:var(--accent2); background:rgba(99,102,241,0.1); border:0.5px solid rgba(99,102,241,0.25); border-radius:99px; padding:4px 14px; margin-bottom:24px; }
-    .hero-dot { width:6px; height:6px; border-radius:50%; background:var(--accent2); animation:pulse 2s infinite; }
+    /* ── OPEN TO WORK BANNER ── */
+    .open-banner{background:linear-gradient(90deg,rgba(99,102,241,.15),rgba(45,212,191,.1));border-bottom:0.5px solid rgba(99,102,241,.2);padding:10px 40px;text-align:center;font-size:13px;color:var(--text2)}
+    .open-banner strong{color:var(--accent2)}
+    .open-banner a{color:var(--accent2);font-weight:500;margin-left:8px;border-bottom:0.5px solid rgba(129,140,248,.3)}
+
+    /* ── HERO ── */
+    .hero{max-width:900px;margin:0 auto;padding:64px 40px 48px;text-align:center}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--accent2);background:var(--accent3);border:0.5px solid rgba(99,102,241,.25);border-radius:99px;padding:4px 14px;margin-bottom:22px}
+    .hero-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);animation:pulse 2s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .hero h1 { font-size:42px; font-weight:700; letter-spacing:-.03em; line-height:1.15; margin-bottom:20px; background:linear-gradient(135deg,#e8e9f0 0%,#9496a8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .hero p { font-size:16px; color:var(--text2); line-height:1.75; max-width:580px; margin:0 auto 32px; }
-    .hero-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:40px; }
-    .hero-tag { font-size:12px; font-weight:500; padding:4px 12px; border-radius:99px; border:0.5px solid var(--border2); color:var(--text2); background:var(--bg2); }
-    .hero-tag.accent { border-color:rgba(99,102,241,0.4); color:var(--accent2); background:rgba(99,102,241,0.08); }
-    .stats { display:flex; justify-content:center; border:0.5px solid var(--border2); border-radius:var(--radius-lg); background:var(--bg2); overflow:hidden; max-width:540px; margin:0 auto 72px; }
-    .stat { flex:1; padding:18px 20px; text-align:center; border-right:0.5px solid var(--border2); }
-    .stat:last-child { border-right:none; }
-    .stat-value { font-size:22px; font-weight:700; color:var(--accent2); margin-bottom:4px; }
-    .stat-label { font-size:11px; color:var(--text3); }
 
-    .section { max-width:1000px; margin:0 auto; padding:0 40px 80px; }
-    .section-header { margin-bottom:28px; }
-    .section-header h2 { font-size:20px; font-weight:600; margin-bottom:6px; }
-    .section-header p { font-size:13px; color:var(--text2); }
+    /* ── PHOTO ── */
+    .hero-photo-wrap{display:flex;justify-content:center;margin-bottom:24px}
+    .hero-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(99,102,241,.4);box-shadow:0 0 0 4px rgba(99,102,241,.1)}
 
-    .tools-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    @media(max-width:700px){ .tools-grid { grid-template-columns:1fr; } }
+    .hero h1{font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;background:linear-gradient(135deg,#e8e9f0 0%,#9496a8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub-name{font-size:15px;color:var(--text2);margin-bottom:18px}
+    .hero p{font-size:15px;color:var(--text2);line-height:1.75;max-width:580px;margin:0 auto 28px}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:36px}
+    .hero-tag{font-size:12px;font-weight:500;padding:4px 12px;border-radius:99px;border:0.5px solid var(--border2);color:var(--text2);background:var(--bg2)}
+    .hero-tag.accent{border-color:rgba(99,102,241,.4);color:var(--accent2);background:var(--accent3)}
 
-    .tool-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:24px 26px; color:var(--text); display:flex; flex-direction:column; gap:14px; transition:border-color .2s,transform .15s; position:relative; overflow:hidden; }
-    .tool-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
-    .tool-card.indigo::before { background:linear-gradient(90deg,#6366f1,#818cf8); }
-    .tool-card.teal::before   { background:linear-gradient(90deg,#2dd4bf,#60a5fa); }
-    .tool-card.amber::before  { background:linear-gradient(90deg,#f59e0b,#f97316); }
-    .tool-card.purple::before { background:linear-gradient(90deg,#a78bfa,#ec4899); }
-    .tool-card:hover { border-color:var(--border2); transform:translateY(-2px); }
-    .tool-top { display:flex; align-items:flex-start; justify-content:space-between; }
-    .tool-icon { font-size:28px; line-height:1; }
-    .tool-version { font-size:10px; font-weight:600; padding:2px 8px; border-radius:99px; background:var(--bg3); color:var(--text3); border:0.5px solid var(--border2); }
-    .tool-card h3 { font-size:16px; font-weight:600; margin-bottom:6px; }
-    .tool-card p  { font-size:13px; color:var(--text2); line-height:1.6; flex:1; }
-    .tool-tags { display:flex; gap:6px; flex-wrap:wrap; }
-    .tool-tag { font-size:11px; padding:2px 8px; border-radius:99px; background:var(--bg3); color:var(--text3); border:0.5px solid var(--border); }
-    .tool-footer { display:flex; align-items:center; justify-content:space-between; padding-top:12px; border-top:0.5px solid var(--border); font-size:12px; }
-    .tool-concepts { color:var(--text3); font-size:11px; }
-    .tool-open { color:var(--accent2); font-weight:500; }
+    /* ── STATS ── */
+    .stats{display:flex;justify-content:center;border:0.5px solid var(--border2);border-radius:var(--rl);background:var(--bg2);overflow:hidden;max-width:560px;margin:0 auto 64px}
+    .stat{flex:1;padding:16px 18px;text-align:center;border-right:0.5px solid var(--border2)}
+    .stat:last-child{border-right:none}
+    .stat-value{font-size:20px;font-weight:700;color:var(--accent2);margin-bottom:3px}
+    .stat-label{font-size:10px;color:var(--text3);line-height:1.4}
 
-    .concepts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-    @media(max-width:600px){ .concepts-grid{grid-template-columns:1fr 1fr;} }
-    .concept-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:14px 16px; }
-    .concept-name { font-size:12px; font-weight:600; color:var(--accent2); margin-bottom:4px; }
-    .concept-desc { font-size:11px; color:var(--text3); line-height:1.5; }
+    /* ── SECTIONS ── */
+    .section{max-width:1000px;margin:0 auto;padding:0 40px 72px}
+    .section-header{margin-bottom:24px}
+    .section-header h2{font-size:19px;font-weight:600;margin-bottom:5px}
+    .section-header p{font-size:13px;color:var(--text2)}
 
-    .about-card { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:28px 32px; display:grid; grid-template-columns:1fr auto; gap:24px; align-items:center; }
-    @media(max-width:600px){ .about-card{grid-template-columns:1fr;} }
-    .about-card h3 { font-size:17px; font-weight:600; margin-bottom:8px; }
-    .about-card p  { font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:14px; }
-    .about-links { display:flex; gap:10px; flex-wrap:wrap; }
-    .about-link { font-size:12px; font-weight:500; padding:6px 14px; border-radius:6px; border:0.5px solid var(--border2); color:var(--text2); background:var(--bg3); transition:color .15s; }
-    .about-link:hover { color:var(--text); }
-    .about-link.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
-    .cert-badge { background:var(--bg3); border:0.5px solid var(--border2); border-radius:var(--radius); padding:16px 20px; text-align:center; min-width:180px; }
-    .cert-icon { font-size:28px; margin-bottom:8px; }
-    .cert-name { font-size:12px; font-weight:600; margin-bottom:4px; }
-    .cert-sub  { font-size:11px; color:var(--text3); line-height:1.4; }
+    /* ── TOOLS ── */
+    .tools-featured{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+    .tools-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:700px){.tools-row{grid-template-columns:1fr}}
 
-    footer { border-top:0.5px solid var(--border); padding:24px 40px; text-align:center; font-size:12px; color:var(--text3); }
-    footer a { color:var(--text3); }
-    footer a:hover { color:var(--text2); }
+    .tool-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rl);padding:22px 24px;color:var(--text);display:flex;flex-direction:column;gap:12px;transition:border-color .2s,transform .15s;position:relative;overflow:hidden}
+    .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+    .tool-card.indigo::before{background:linear-gradient(90deg,#6366f1,#818cf8)}
+    .tool-card.teal::before{background:linear-gradient(90deg,#2dd4bf,#60a5fa)}
+    .tool-card.amber::before{background:linear-gradient(90deg,#f59e0b,#f97316)}
+    .tool-card.featured{display:grid;grid-template-columns:1fr auto;align-items:start;gap:20px}
+    @media(max-width:600px){.tool-card.featured{grid-template-columns:1fr}}
+    .tool-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+    .tool-top{display:flex;align-items:flex-start;justify-content:space-between}
+    .tool-icon{font-size:26px;line-height:1}
+    .tool-version{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--bg3);color:var(--text3);border:0.5px solid var(--border2)}
+    .tool-card h3{font-size:16px;font-weight:600;margin-bottom:5px}
+    .tool-card p{font-size:13px;color:var(--text2);line-height:1.6;flex:1}
+    .tool-tags{display:flex;gap:5px;flex-wrap:wrap}
+    .tool-tag{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--bg3);color:var(--text3);border:0.5px solid var(--border)}
+    .tool-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:0.5px solid var(--border);font-size:11px}
+    .tool-concepts{color:var(--text3)}
+    .tool-open{color:var(--accent2);font-weight:500;font-size:13px}
+    .featured-stats{display:flex;flex-direction:column;gap:8px;min-width:140px}
+    @media(max-width:600px){.featured-stats{flex-direction:row;flex-wrap:wrap}}
+    .fstat{background:var(--bg3);border-radius:var(--r);padding:10px 14px;text-align:center}
+    .fstat-val{font-size:18px;font-weight:700;color:var(--accent2)}
+    .fstat-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+
+    /* ── CURRENTLY BUILDING ── */
+    .building-strip{background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(45,212,191,.05));border:0.5px solid rgba(99,102,241,.2);border-radius:var(--rl);padding:18px 24px;margin-bottom:72px;max-width:1000px;margin-left:auto;margin-right:auto;margin-top:-40px}
+    .building-strip-inner{max-width:920px;margin:0 auto;display:flex;align-items:flex-start;gap:14px}
+    .building-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+    .building-title{font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:4px}
+    .building-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+    /* ── EWM CONCEPTS ── */
+    .concepts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    @media(max-width:700px){.concepts-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:400px){.concepts-grid{grid-template-columns:1fr}}
+    .concept-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:14px 16px}
+    .concept-name{font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:4px}
+    .concept-desc{font-size:11px;color:var(--text3);line-height:1.5}
+
+    /* ── EXPERIENCE ── */
+    .exp-list{display:flex;flex-direction:column;gap:14px}
+    .exp-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rl);padding:18px 22px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+    @media(max-width:500px){.exp-card{grid-template-columns:1fr}}
+    .exp-role{font-size:14px;font-weight:600;margin-bottom:2px}
+    .exp-company{font-size:13px;color:var(--accent2);margin-bottom:6px}
+    .exp-desc{font-size:12px;color:var(--text2);line-height:1.6}
+    .exp-date{font-size:11px;color:var(--text3);white-space:nowrap;text-align:right}
+    .exp-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+    .exp-tag{font-size:10px;padding:2px 7px;border-radius:99px;background:var(--bg3);color:var(--text3);border:0.5px solid var(--border)}
+
+    /* ── SKILLS ── */
+    .skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    @media(max-width:800px){.skills-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:400px){.skills-grid{grid-template-columns:1fr}}
+    .skill-group{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rl);padding:16px 18px}
+    .skill-group-title{font-size:11px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .skill-list{display:flex;flex-direction:column;gap:5px}
+    .skill-item{font-size:12px;color:var(--text2);padding:4px 0;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:6px}
+    .skill-item:last-child{border-bottom:none}
+    .skill-dot{width:4px;height:4px;border-radius:50%;background:var(--accent2);flex-shrink:0}
+
+    /* ── CERTIFICATIONS ── */
+    .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    @media(max-width:700px){.cert-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:400px){.cert-grid{grid-template-columns:1fr}}
+    .cert-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:14px 16px}
+    .cert-card.featured-cert{border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.05)}
+    .cert-icon{font-size:20px;margin-bottom:6px}
+    .cert-name{font-size:12px;font-weight:600;margin-bottom:3px}
+    .cert-issuer{font-size:11px;color:var(--text3)}
+    .cert-badge{display:inline-block;font-size:9px;font-weight:600;padding:1px 6px;border-radius:99px;background:var(--accent3);color:var(--accent2);border:0.5px solid rgba(99,102,241,.3);margin-top:4px}
+
+    /* ── ABOUT ── */
+    .about-grid{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+    @media(max-width:700px){.about-grid{grid-template-columns:1fr}}
+    .about-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(99,102,241,.3);flex-shrink:0}
+    .about-name{font-size:18px;font-weight:700;margin-bottom:4px}
+    .about-title{font-size:13px;color:var(--accent2);margin-bottom:12px}
+    .about-bio{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:16px}
+    .about-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .about-link{font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);background:var(--bg3);transition:color .15s,border-color .15s}
+    .about-link:hover{color:var(--text);border-color:var(--border2)}
+    .about-link.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .about-link.primary:hover{opacity:.88;color:#fff}
+    .about-link.substack{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.3)}
+    .about-link.substack:hover{background:rgba(245,158,11,.15)}
+    .edu-list{display:flex;flex-direction:column;gap:8px}
+    .edu-item{font-size:12px;color:var(--text2);display:flex;align-items:flex-start;gap:8px}
+    .edu-dot{width:4px;height:4px;border-radius:50%;background:var(--accent2);flex-shrink:0;margin-top:5px}
+
+    /* ── RESUME ── */
+    .resume-card{background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(45,212,191,.05));border:0.5px solid rgba(99,102,241,.2);border-radius:var(--rl);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    @media(max-width:600px){.resume-card{flex-direction:column;text-align:center}}
+    .resume-text h3{font-size:16px;font-weight:600;margin-bottom:4px}
+    .resume-text p{font-size:13px;color:var(--text2)}
+    .resume-btn{padding:10px 24px;background:var(--accent);color:#fff;border-radius:var(--r);font-size:13px;font-weight:600;white-space:nowrap;transition:opacity .15s;cursor:not-allowed;opacity:.7}
+    .resume-btn.ready{cursor:pointer;opacity:1}
+    .resume-btn:hover.ready{opacity:.88}
+    .resume-coming{font-size:11px;color:var(--text3);margin-top:4px;text-align:center}
+
+    /* ── CONTACT ── */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:700px){.contact-grid{grid-template-columns:1fr}}
+    .contact-info h3{font-size:16px;font-weight:600;margin-bottom:8px}
+    .contact-info p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px}
+    .contact-detail{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2);margin-bottom:8px}
+    .contact-detail a{color:var(--accent2)}
+    .contact-detail a:hover{text-decoration:underline}
+    .contact-form{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rl);padding:22px 24px}
+    .form-group{margin-bottom:14px}
+    .form-group label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;font-weight:500}
+    .form-group input,.form-group textarea{width:100%;padding:9px 12px;font-size:13px;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--r);color:var(--text);outline:none;transition:border-color .15s;font-family:inherit}
+    .form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .form-submit{width:100%;padding:11px;font-size:13px;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:opacity .15s}
+    .form-submit:hover{opacity:.88}
+    .form-success{display:none;background:rgba(34,197,94,.1);border:0.5px solid rgba(34,197,94,.3);border-radius:var(--r);padding:12px;font-size:13px;color:var(--green);text-align:center;margin-top:10px}
+
+    /* ── WRITING ── */
+    .writing-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rl);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    @media(max-width:600px){.writing-card{flex-direction:column}}
+    .writing-icon{font-size:32px}
+    .writing-text h3{font-size:15px;font-weight:600;margin-bottom:4px}
+    .writing-text p{font-size:13px;color:var(--text2);line-height:1.6}
+    .writing-link{padding:9px 20px;background:rgba(245,158,11,.1);color:var(--amber);border:0.5px solid rgba(245,158,11,.3);border-radius:var(--r);font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s}
+    .writing-link:hover{background:rgba(245,158,11,.18)}
+
+    footer{border-top:0.5px solid var(--border);padding:22px 40px;text-align:center;font-size:12px;color:var(--text3)}
+    footer a{color:var(--text3)}
+    footer a:hover{color:var(--text2)}
   </style>
 </head>
 <body>
 
+<!-- Open to Work Banner -->
+<div class="open-banner">
+  🟢 <strong>Open to work</strong> — Seeking Supply Chain Analyst, Operations Analyst, and WMS/EWM roles · Chicago, IL · Open to relocation
+  <a href="mailto:nrkaushika@gmail.com">nrkaushika@gmail.com</a>
+</div>
+
+<!-- Nav -->
 <nav>
-  <div class="nav-logo">Supply Chain Portfolio</div>
+  <div class="nav-logo">Kaushika Naik</div>
   <div class="nav-links">
     <a href="#tools">Tools</a>
-    <a href="#concepts">EWM concepts</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
     <a href="#about">About</a>
+    <a href="#contact">Contact</a>
     <a href="https://kaushikanaikr.substack.com" target="_blank" class="nav-cta">The Flow of Things ↗</a>
   </div>
 </nav>
 
+<!-- Hero -->
 <div class="hero">
-  <div class="hero-eyebrow"><div class="hero-dot"></div>SAP EWM · Supply Chain Operations · Pharma</div>
+  <div class="hero-eyebrow"><div class="hero-dot"></div>SAP EWM · Supply Chain Operations · Pharma & Medical Devices</div>
+  <div class="hero-photo-wrap">
+    <img src="kaushika.jpg" alt="Kaushika Naik" class="hero-photo"/>
+  </div>
   <h1>Supply Chain Knowledge,<br>Made Interactive</h1>
-  <p>Three tools that demonstrate applied SAP Extended Warehouse Management (EWM) logic — built to show the thinking behind the coursework, not just the acronym on a resume.</p>
+  <p class="hero-sub-name">Kaushika Naik — MS Technology Management, UIUC Gies · GPA 3.83</p>
+  <p>Three tools that demonstrate applied SAP Extended Warehouse Management (EWM) logic — built to show the thinking behind the system, not just the acronym on a resume.</p>
   <div class="hero-tags">
-    <span class="hero-tag accent">SAP EWM Coursework — S/4HANA Supply Chain</span>
-    <span class="hero-tag">MS Technology Management — UIUC Gies</span>
-    <span class="hero-tag">Warehouse Operations</span>
-    <span class="hero-tag">Pharma Supply Chain</span>
-    <span class="hero-tag">Demand Planning</span>
+    <span class="hero-tag accent">MS Technology Management — UIUC Gies</span>
+    <span class="hero-tag accent">SAP S/4HANA EWM — Applied Knowledge</span>
+    <span class="hero-tag">Warehouse Operations — Inbound & Putaway</span>
+    <span class="hero-tag">Pharma · Medical Devices · Healthcare</span>
+    <span class="hero-tag">Regulated Supply Chain</span>
+    <span class="hero-tag">Built 3 interactive supply chain tools</span>
   </div>
   <div class="stats">
     <div class="stat"><div class="stat-value">3</div><div class="stat-label">Interactive tools</div></div>
-    <div class="stat"><div class="stat-value">6</div><div class="stat-label">EWM scenarios</div></div>
-    <div class="stat"><div class="stat-value">6</div><div class="stat-label">KPIs tracked</div></div>
-    <div class="stat"><div class="stat-value">V4</div><div class="stat-label">Latest version</div></div>
+    <div class="stat"><div class="stat-value">15+</div><div class="stat-label">SAP transactions referenced</div></div>
+    <div class="stat"><div class="stat-value">6</div><div class="stat-label">EWM scenarios simulated</div></div>
+    <div class="stat"><div class="stat-value">Solo</div><div class="stat-label">Built end-to-end</div></div>
   </div>
 </div>
 
+<!-- Tools -->
 <div class="section" id="tools">
   <div class="section-header">
     <h2>Tools</h2>
-    <p>Each tool demonstrates a different layer of supply chain and warehouse management knowledge.</p>
+    <p>Each tool demonstrates a different layer of supply chain and warehouse management knowledge — from strategy through execution to measurement.</p>
   </div>
-  <div class="tools-grid">
 
-    <a href="slotting-optimizer.html" class="tool-card indigo">
-      <div class="tool-top"><div class="tool-icon">🗂️</div><span class="tool-version">Latest</span></div>
+  <!-- Featured tool -->
+  <div class="tools-featured">
+    <a href="slotting-optimizer.html" class="tool-card indigo featured">
       <div>
+        <div class="tool-top"><div class="tool-icon">🗂️</div><span class="tool-version">Featured</span></div>
         <h3>Warehouse Slotting Optimizer</h3>
-        <p>Score SKUs by pick velocity, weight, and cold chain requirements — then assign optimal bin zones. Cold chain items isolated into a separate storage pool, mirroring SAP EWM storage type restrictions in the material master.</p>
+        <p>Score SKUs (Stock Keeping Units) by pick velocity, weight, and cold chain requirements — then assign optimal bin zones. Cold chain items are isolated into a dedicated storage pool (LG05), mirroring how SAP EWM enforces storage type restrictions in the material master. Zones A–D map directly to the storage type search sequence in EWM putaway strategy.</p>
+        <div class="tool-tags">
+          <span class="tool-tag">Putaway strategy</span>
+          <span class="tool-tag">Storage type search</span>
+          <span class="tool-tag">Cold chain isolation (LG05)</span>
+          <span class="tool-tag">Zone A–D</span>
+          <span class="tool-tag">Velocity scoring</span>
+          <span class="tool-tag">Warehouse map</span>
+        </div>
+        <div class="tool-footer">
+          <span class="tool-concepts">EWM: LG01–LG05 · SPRO · Storage type search sequence · LX01 · LS01N</span>
+          <span class="tool-open">Open →</span>
+        </div>
       </div>
-      <div class="tool-tags">
-        <span class="tool-tag">Putaway strategy</span>
-        <span class="tool-tag">Storage type search</span>
-        <span class="tool-tag">Cold chain isolation</span>
-        <span class="tool-tag">Zone A–D</span>
-      </div>
-      <div class="tool-footer">
-        <span class="tool-concepts">EWM: LG01–LG05 · SPRO · Storage type search sequence</span>
-        <span class="tool-open">Open →</span>
+      <div class="featured-stats">
+        <div class="fstat"><div class="fstat-val">5</div><div class="fstat-lbl">Tabs</div></div>
+        <div class="fstat"><div class="fstat-val">10</div><div class="fstat-lbl">Default SKUs</div></div>
+        <div class="fstat"><div class="fstat-val">2</div><div class="fstat-lbl">Storage pools</div></div>
       </div>
     </a>
+  </div>
 
-    <a href="ewm-gr-putaway-simulator-v4.html" class="tool-card teal">
+  <!-- Two tools side by side -->
+  <div class="tools-row">
+    <a href="gr-putaway-simulator.html" class="tool-card teal">
       <div class="tool-top"><div class="tool-icon">📦</div><span class="tool-version">V4</span></div>
       <div>
         <h3>GR to Putaway Simulator</h3>
-        <p>Walk through a complete Goods Receipt (GR) to putaway flow in SAP EWM. Six scenarios: normal GR, damaged goods (Quality Management hold), short delivery, over-delivery, cold chain, and near-expiry (FEFO). Full date/time scheduling, door classification with dock conflict detection, batch traceability, and decision tree.</p>
+        <p>Walk through a complete Goods Receipt (GR) to putaway flow in SAP EWM. Six scenarios: normal GR, damaged goods (Quality Management hold), short delivery, over-delivery, cold chain, and near-expiry (FEFO). Full date/time scheduling, door classification with dock conflict detection, batch traceability across all 6 steps, and a decision tree at summary.</p>
       </div>
       <div class="tool-tags">
         <span class="tool-tag">GR posting</span>
         <span class="tool-tag">Quality hold (LG09)</span>
-        <span class="tool-tag">FEFO routing</span>
+        <span class="tool-tag">FEFO (LG08)</span>
         <span class="tool-tag">Over-delivery</span>
         <span class="tool-tag">Dock scheduling</span>
+        <span class="tool-tag">Batch traceability</span>
       </div>
       <div class="tool-footer">
-        <span class="tool-concepts">EWM: VL31N · MIGO · LT0A · QA32 · ME22N · /SCWM/TO_CONF</span>
+        <span class="tool-concepts">EWM: VL31N · MIGO · /SCWM/TORD · QA32 · ME22N · /SCWM/TO_CONF</span>
         <span class="tool-open">Open →</span>
       </div>
     </a>
@@ -167,7 +309,7 @@
       <div class="tool-top"><div class="tool-icon">📊</div><span class="tool-version">2025 Data</span></div>
       <div>
         <h3>Pharma Supply Chain KPI Dashboard</h3>
-        <p>Twelve months of simulated pharma supply chain data — supplier delay in February, flu season spike in April, new vendor in July, forecast miss in October. Six KPIs with trend charts, supplier performance, and SAP context for each metric.</p>
+        <p>12 months of simulated pharma supply chain data with a realistic narrative — supplier delay in February, flu season demand spike in April, new vendor onboarded in July, forecast miss in October. Six KPIs with trend charts, dynamic supplier performance table, and SAP system context for each metric.</p>
       </div>
       <div class="tool-tags">
         <span class="tool-tag">OTIF</span>
@@ -175,16 +317,28 @@
         <span class="tool-tag">Inventory turnover</span>
         <span class="tool-tag">MAPE</span>
         <span class="tool-tag">Days of supply</span>
+        <span class="tool-tag">Cycle time</span>
       </div>
       <div class="tool-footer">
-        <span class="tool-concepts">SAP: MM-IM · APO/IBP · SD · S&OP</span>
+        <span class="tool-concepts">SAP: MM-IM · APO/IBP · SD · S&OP · SAP Analytics Cloud</span>
         <span class="tool-open">Open →</span>
       </div>
     </a>
-
   </div>
 </div>
 
+<!-- Currently Building -->
+<div class="building-strip" style="padding:0 40px;margin-bottom:72px">
+  <div class="building-strip-inner">
+    <div class="building-icon">🔧</div>
+    <div>
+      <div class="building-title">Currently building</div>
+      <div class="building-desc">Connecting all three tools into an end-to-end supply chain simulation — slotting optimizer zone assignments feed directly into GR putaway routing, outcomes measured in the KPI dashboard. Mirrors how SAP EWM putaway strategy configuration in SPRO connects to business KPIs in real implementations.</div>
+    </div>
+  </div>
+</div>
+
+<!-- EWM Concepts -->
 <div class="section" id="concepts">
   <div class="section-header">
     <h2>EWM concepts demonstrated</h2>
@@ -193,58 +347,333 @@
   <div class="concepts-grid">
     <div class="concept-card">
       <div class="concept-name">Storage Type Search Sequence</div>
-      <div class="concept-desc">EWM evaluates storage types in priority order at putaway. LG01 (Zone A) checked first — first match wins. Configured in SPRO.</div>
+      <div class="concept-desc">EWM evaluates storage types in priority order at putaway. LG01 (Zone A) checked first — first match wins. Configured in SPRO. Each warehouse product group gets its own sequence.</div>
     </div>
     <div class="concept-card">
-      <div class="concept-name">Transfer Order (TO)</div>
-      <div class="concept-desc">EWM's internal movement instruction — source bin to destination bin, with material, quantity, batch, and handling unit. Confirmed via RF scanner.</div>
+      <div class="concept-name">Warehouse Task (WT)</div>
+      <div class="concept-desc">EWM's internal movement instruction — source bin to destination bin, with material, quantity, batch, and handling unit. Grouped into Warehouse Orders (WO). Confirmed via RF scanner. Transaction: /SCWM/TORD · /SCWM/TO_CONF</div>
     </div>
     <div class="concept-card">
       <div class="concept-name">Quality Management (QM) Hold</div>
-      <div class="concept-desc">Damaged stock bypasses normal putaway and goes to LG09 (Quality Inspection). QA32 usage decision required before release.</div>
+      <div class="concept-desc">Damaged stock bypasses normal putaway entirely — routed to LG09 (Quality Inspection storage type), segregated from unrestricted stock. QA32 usage decision required before release or return to vendor.</div>
     </div>
     <div class="concept-card">
-      <div class="concept-name">FEFO (First Expiry First Out)</div>
-      <div class="concept-desc">Near-expiry stock routed to LG08 and picked before standard stock regardless of receipt date. Mandatory in pharma regulated environments.</div>
+      <div class="concept-name">FEFO — First Expiry First Out</div>
+      <div class="concept-desc">Near-expiry stock routed to LG08 (Near-Expiry Zone) and always picked before standard stock regardless of receipt date. Mandatory in pharma regulated environments. Shelf life threshold: 90 days.</div>
     </div>
     <div class="concept-card">
       <div class="concept-name">Batch Traceability</div>
-      <div class="concept-desc">Batch tracked from GR through TO, bin determination, and confirmation. Required for pharma compliance and recall readiness.</div>
+      <div class="concept-desc">Batch number tracked from GR posting through Warehouse Task creation, bin determination, and confirmation. Required for pharma compliance and product recall readiness. Transaction: MB56 (Batch Where-Used List).</div>
     </div>
     <div class="concept-card">
-      <div class="concept-name">OTIF and Fill Rate</div>
-      <div class="concept-desc">On Time In Full (OTIF) and order fill rate are the primary KPIs on every supply chain analyst dashboard. Tracked monthly against targets.</div>
+      <div class="concept-name">Supply Chain KPIs — OTIF & Fill Rate</div>
+      <div class="concept-desc">On Time In Full (OTIF) and order fill rate are the primary KPIs on every supply chain analyst dashboard. Tracked in SAP via delivery reliability reports in EWM and SD. Target: ≥ 95% for pharma distributors.</div>
     </div>
   </div>
 </div>
 
-<div class="section" id="about">
-  <div class="section-header"><h2>About</h2></div>
-  <div class="about-card">
-    <div>
-      <h3>Kaushika Naik Ramavatu</h3>
-      <p>MS Technology Management, Gies College of Business, University of Illinois Urbana-Champaign (UIUC). SAP S/4HANA Supply Chain Execution and EWM coursework. Writing about supply chain operations and warehouse management at The Flow of Things.</p>
-      <p>These tools were built to demonstrate applied EWM knowledge practically — not just as a certification line on a resume. Each iteration improved on gaps identified in the previous version, mirroring how real supply chain analysts approach process improvement.</p>
-      <div class="about-links">
-        <a href="https://linkedin.com/in/kaushika-naik-ramavatu" target="_blank" class="about-link primary">LinkedIn ↗</a>
-        <a href="https://kaushikanaikr.substack.com" target="_blank" class="about-link">The Flow of Things ↗</a>
-        <a href="https://github.com/nrkaushika/warehouse-slotting-optimizer" target="_blank" class="about-link">GitHub ↗</a>
+<!-- Experience -->
+<div class="section" id="experience">
+  <div class="section-header">
+    <h2>Experience</h2>
+    <p>Operations, supply chain, and strategy roles across startup, non-profit, and enterprise environments.</p>
+  </div>
+  <div class="exp-list">
+
+    <div class="exp-card">
+      <div>
+        <div class="exp-role">Operations Program Manager — Supply Chain & Strategy</div>
+        <div class="exp-company">NoshBox · Food-tech Startup · Remote</div>
+        <div class="exp-desc">Owned end-to-end pre-launch supply chain and fulfillment operations for a food-tech startup. Engineered process maps and SOPs across fulfillment stages (order intake, vendor coordination, packaging, dispatch). Identified critical supply bottlenecks pre-launch via root cause analysis — findings directly informed a revised launch timeline, preventing a false delivery commitment. Designed and tracked operational KPIs covering supply readiness and fulfillment throughput.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Supply Chain Operations</span>
+          <span class="exp-tag">Fulfillment SOPs</span>
+          <span class="exp-tag">Vendor Coordination</span>
+          <span class="exp-tag">KPI Dashboards</span>
+          <span class="exp-tag">Root Cause Analysis</span>
+        </div>
+      </div>
+      <div class="exp-date">Apr – Aug 2025<br><span style="color:var(--text3);font-size:10px">5 months</span></div>
+    </div>
+
+    <div class="exp-card">
+      <div>
+        <div class="exp-role">Business Strategy & Operations Intern</div>
+        <div class="exp-company">XMReality · B2B AR Software · Champaign, IL</div>
+        <div class="exp-desc">Assessed U.S. market entry opportunities for a European AR software firm across 10+ industries. Built a custom scoring model evaluating operational readiness and ROI across 15+ competitors, prioritizing 3 high-potential verticals. Developed a 3-phase U.S. rollout plan aligning GTM strategy with operational capacity, reducing GTM uncertainty by 30% across target markets.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Market Entry Strategy</span>
+          <span class="exp-tag">Competitive Analysis</span>
+          <span class="exp-tag">GTM Planning</span>
+          <span class="exp-tag">Operations Strategy</span>
+        </div>
+      </div>
+      <div class="exp-date">May – Aug 2025<br><span style="color:var(--text3);font-size:10px">4 months</span></div>
+    </div>
+
+    <div class="exp-card">
+      <div>
+        <div class="exp-role">Project Manager</div>
+        <div class="exp-company">Saayam For All · Non-profit · Part-time</div>
+        <div class="exp-desc">Led end-to-end project delivery for a non-profit platform, coordinating cross-functional teams across feature rollouts. Managed sprint planning across 15–20 active tasks per cycle, improving on-time delivery by ~25%. Reduced average milestone cycle time by ~30% through structured prioritization and workload rebalancing. Tools: GitHub, Microsoft Project, Trello.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Sprint Planning</span>
+          <span class="exp-tag">Kanban</span>
+          <span class="exp-tag">Cross-functional Coordination</span>
+          <span class="exp-tag">GitHub</span>
+        </div>
+      </div>
+      <div class="exp-date">Oct 2025 – Present<br><span style="color:var(--text3);font-size:10px">Part-time</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Skills -->
+<div class="section" id="skills">
+  <div class="section-header">
+    <h2>Skills</h2>
+    <p>Applied across coursework, projects, and professional roles.</p>
+  </div>
+  <div class="skills-grid">
+
+    <div class="skill-group">
+      <div class="skill-group-title">SAP & EWM</div>
+      <div class="skill-list">
+        <div class="skill-item"><div class="skill-dot"></div>SAP S/4HANA</div>
+        <div class="skill-item"><div class="skill-dot"></div>SAP EWM (Extended Warehouse Mgmt)</div>
+        <div class="skill-item"><div class="skill-dot"></div>SAP Fiori</div>
+        <div class="skill-item"><div class="skill-dot"></div>Warehouse Task Management</div>
+        <div class="skill-item"><div class="skill-dot"></div>Goods Receipt Processing</div>
+        <div class="skill-item"><div class="skill-dot"></div>Goods Issue Processing</div>
+        <div class="skill-item"><div class="skill-dot"></div>SAP Inventory Management</div>
+        <div class="skill-item"><div class="skill-dot"></div>Storage Type Configuration</div>
       </div>
     </div>
-    <div class="cert-badge">
-      <div class="cert-icon">📚</div>
-      <div class="cert-name">SAP Coursework</div>
-      <div class="cert-sub">S/4HANA Supply Chain Execution and Extended Warehouse Management (EWM)</div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Supply Chain</div>
+      <div class="skill-list">
+        <div class="skill-item"><div class="skill-dot"></div>Warehouse Operations</div>
+        <div class="skill-item"><div class="skill-dot"></div>Inbound & Outbound Logistics</div>
+        <div class="skill-item"><div class="skill-dot"></div>Putaway Strategy & Slotting</div>
+        <div class="skill-item"><div class="skill-dot"></div>FEFO / FIFO</div>
+        <div class="skill-item"><div class="skill-dot"></div>Batch Traceability</div>
+        <div class="skill-item"><div class="skill-dot"></div>KPI Tracking (OTIF, Fill Rate, MAPE)</div>
+        <div class="skill-item"><div class="skill-dot"></div>Inventory Optimization</div>
+        <div class="skill-item"><div class="skill-dot"></div>S&OP Concepts</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Analytics & Tools</div>
+      <div class="skill-list">
+        <div class="skill-item"><div class="skill-dot"></div>SQL</div>
+        <div class="skill-item"><div class="skill-dot"></div>Tableau</div>
+        <div class="skill-item"><div class="skill-dot"></div>Power BI</div>
+        <div class="skill-item"><div class="skill-dot"></div>Excel (Advanced)</div>
+        <div class="skill-item"><div class="skill-dot"></div>Python (Analytics)</div>
+        <div class="skill-item"><div class="skill-dot"></div>GitHub</div>
+        <div class="skill-item"><div class="skill-dot"></div>HTML / CSS / JavaScript</div>
+        <div class="skill-item"><div class="skill-dot"></div>Data Storytelling</div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Operations & Strategy</div>
+      <div class="skill-list">
+        <div class="skill-item"><div class="skill-dot"></div>Process Mapping & SOPs</div>
+        <div class="skill-item"><div class="skill-dot"></div>GTM Strategy</div>
+        <div class="skill-item"><div class="skill-dot"></div>Vendor Coordination</div>
+        <div class="skill-item"><div class="skill-dot"></div>Sprint Planning / Kanban</div>
+        <div class="skill-item"><div class="skill-dot"></div>Root Cause Analysis</div>
+        <div class="skill-item"><div class="skill-dot"></div>Lean Six Sigma (Yellow Belt)</div>
+        <div class="skill-item"><div class="skill-dot"></div>Porter's Five Forces / Diamond</div>
+        <div class="skill-item"><div class="skill-dot"></div>Cross-functional Coordination</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Certifications -->
+<div class="section" id="certifications">
+  <div class="section-header">
+    <h2>Certifications</h2>
+  </div>
+  <div class="cert-grid">
+    <div class="cert-card featured-cert">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-name">Business Processes for Supply Chain Execution in SAP S/4HANA Cloud Private Edition</div>
+      <div class="cert-issuer">SAP · Issued Jun 2026</div>
+      <div class="cert-badge">SAP Issued</div>
+    </div>
+    <div class="cert-card featured-cert">
+      <div class="cert-icon">✈️</div>
+      <div class="cert-name">GE Aerospace — Explore Supply Chain</div>
+      <div class="cert-issuer">Forage · Issued Feb 2026</div>
+      <div class="cert-badge">Industry Program</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">⚙️</div>
+      <div class="cert-name">Lean Six Sigma Yellow Belt</div>
+      <div class="cert-issuer">CSSC · Issued Apr 2023</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">📊</div>
+      <div class="cert-name">SAP S/4HANA Essential Training</div>
+      <div class="cert-issuer">LinkedIn · Issued Jun 2026</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">📋</div>
+      <div class="cert-name">Foundations of Project Management</div>
+      <div class="cert-issuer">Google / Coursera · Jun 2024</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🤖</div>
+      <div class="cert-name">Google AI Essentials</div>
+      <div class="cert-issuer">Coursera · Jan 2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- Writing / Substack -->
+<div class="section" id="writing">
+  <div class="section-header">
+    <h2>Writing</h2>
+  </div>
+  <div class="writing-card">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div class="writing-icon">✍️</div>
+      <div class="writing-text">
+        <h3>The Flow of Things</h3>
+        <p>Writing about supply chain operations, SAP EWM, warehouse management, and the intersection of technology and logistics. Covering the concepts behind the tools — for practitioners, not textbooks.</p>
+      </div>
+    </div>
+    <a href="https://kaushikanaikr.substack.com" target="_blank" class="writing-link">Read on Substack ↗</a>
+  </div>
+</div>
+
+<!-- About -->
+<div class="section" id="about">
+  <div class="section-header">
+    <h2>About</h2>
+  </div>
+  <div class="about-grid">
+    <img src="kaushika.jpg" alt="Kaushika Naik" class="about-photo"/>
+    <div>
+      <div class="about-name">Kaushika Naik</div>
+      <div class="about-title">Supply Chain & Operations · MS Technology Management, UIUC Gies</div>
+      <p class="about-bio">MS Technology Management from Gies College of Business, University of Illinois Urbana-Champaign (GPA: 3.83, Scholarship Recipient). Deep focus in SAP Extended Warehouse Management (EWM), pharma supply chain operations, and warehouse execution systems.</p>
+      <p class="about-bio">Built three interactive supply chain tools that model real SAP EWM warehouse logic — from slotting strategy through inbound execution to KPI measurement. Each iteration improved on gaps identified in the previous version, mirroring how real supply chain analysts approach process improvement.</p>
+      <p class="about-bio">Background spanning supply chain operations, GTM strategy, and cross-functional program management across a food-tech startup, a B2B AR software firm, and non-profit delivery. Open to relocation. Fluent in English and Hindi.</p>
+      <div class="about-links">
+        <a href="https://linkedin.com/in/kaushika-naik" target="_blank" class="about-link primary">LinkedIn ↗</a>
+        <a href="https://kaushikanaikr.substack.com" target="_blank" class="about-link substack">The Flow of Things ↗</a>
+        <a href="https://github.com/nrkaushika" target="_blank" class="about-link">GitHub ↗</a>
+        <a href="mailto:nrkaushika@gmail.com" class="about-link">nrkaushika@gmail.com</a>
+      </div>
+      <div class="edu-list">
+        <div class="edu-item"><div class="edu-dot"></div><span><strong>MS Technology Management</strong> — Gies College of Business, UIUC · GPA 3.83 · 2024–2025</span></div>
+        <div class="edu-item"><div class="edu-dot"></div><span><strong>BTech Information Technology</strong> — Manipal University Jaipur · 2018–2022</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Resume -->
+<div class="section" id="resume">
+  <div class="section-header">
+    <h2>Resume</h2>
+  </div>
+  <div class="resume-card">
+    <div class="resume-text">
+      <h3>Kaushika Naik — Resume</h3>
+      <p>Supply Chain & Operations · MS Technology Management, UIUC Gies · SAP EWM · Open to work</p>
+    </div>
+    <div style="text-align:center">
+      <div class="resume-btn">Download PDF</div>
+      <div class="resume-coming">Coming soon — check back shortly</div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div class="section" id="contact">
+  <div class="section-header">
+    <h2>Get in touch</h2>
+    <p>Open to Supply Chain Analyst, Operations Analyst, and WMS/EWM roles. Open to relocation.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Let's connect</h3>
+      <p>Whether you're a recruiter, hiring manager, or fellow supply chain professional — I'd love to hear from you. Currently seeking full-time roles in supply chain operations and analytics.</p>
+      <div class="contact-detail">📧 <a href="mailto:nrkaushika@gmail.com">nrkaushika@gmail.com</a></div>
+      <div class="contact-detail">💼 <a href="https://linkedin.com/in/kaushika-naik" target="_blank">linkedin.com/in/kaushika-naik</a></div>
+      <div class="contact-detail">📍 Chicago, IL · Open to relocation</div>
+      <div class="contact-detail">✍️ <a href="https://kaushikanaikr.substack.com" target="_blank">The Flow of Things — Substack</a></div>
+    </div>
+    <div class="contact-form">
+      <form action="https://formspree.io/f/xykalaww" method="POST" id="contact-form">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" name="name" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label>Your email</label>
+          <input type="email" name="email" placeholder="jane@company.com" required>
+        </div>
+        <div class="form-group">
+          <label>Company / Organization</label>
+          <input type="text" name="company" placeholder="Abbott Laboratories">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea name="message" placeholder="I'd like to discuss a Supply Chain Analyst opportunity..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send message →</button>
+        <div class="form-success" id="form-success">✓ Message sent — I'll get back to you within 24 hours.</div>
+      </form>
     </div>
   </div>
 </div>
 
 <footer>
   SAP EWM Supply Chain Portfolio &mdash;
-  <a href="https://linkedin.com/in/kaushika-naik-ramavatu" target="_blank">Kaushika Naik Ramavatu</a> &middot;
+  <a href="https://linkedin.com/in/kaushika-naik" target="_blank">Kaushika Naik</a> &middot;
   MS Technology Management, UIUC Gies &middot;
-  <a href="https://kaushikanaikr.substack.com" target="_blank">The Flow of Things</a>
+  <a href="https://kaushikanaikr.substack.com" target="_blank">The Flow of Things</a> &middot;
+  <a href="mailto:nrkaushika@gmail.com">nrkaushika@gmail.com</a>
 </footer>
 
+<script>
+// Contact form submission
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('.form-submit');
+  const success = document.getElementById('form-success');
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '.7';
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.reset();
+      success.style.display = 'block';
+      btn.textContent = '✓ Sent';
+    } else {
+      btn.textContent = 'Error — try email instead';
+      btn.style.opacity = '1';
+    }
+  } catch {
+    btn.textContent = 'Error — try email instead';
+    btn.style.opacity = '1';
+  }
+});
+</script>
 </body>
 </html>
