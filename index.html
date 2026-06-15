@@ -17,7 +17,7 @@
       --red:#ef4444;
       --r:8px;--rl:16px;
     }
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
     a{text-decoration:none;color:inherit}
 
     /* ── NAV ── */
@@ -43,11 +43,11 @@
 
     /* ── PHOTO ── */
     .hero-photo-wrap{display:flex;justify-content:center;margin-bottom:24px}
-    .hero-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(99,102,241,.4);box-shadow:0 0 0 4px rgba(99,102,241,.1)}
+    .hero-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center 10%;border:2px solid rgba(99,102,241,.4);box-shadow:0 0 0 4px rgba(99,102,241,.1)}
 
     .hero h1{font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;background:linear-gradient(135deg,#e8e9f0 0%,#9496a8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .hero-sub-name{font-size:15px;color:var(--text2);margin-bottom:18px}
-    .hero p{font-size:15px;color:var(--text2);line-height:1.75;max-width:580px;margin:0 auto 28px}
+    .hero p{font-size:16px;color:var(--text2);line-height:1.75;max-width:580px;margin:0 auto 28px}
     .hero-tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:36px}
     .hero-tag{font-size:12px;font-weight:500;padding:4px 12px;border-radius:99px;border:0.5px solid var(--border2);color:var(--text2);background:var(--bg2)}
     .hero-tag.accent{border-color:rgba(99,102,241,.4);color:var(--accent2);background:var(--accent3)}
@@ -82,7 +82,7 @@
     .tool-icon{font-size:26px;line-height:1}
     .tool-version{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--bg3);color:var(--text3);border:0.5px solid var(--border2)}
     .tool-card h3{font-size:16px;font-weight:600;margin-bottom:5px}
-    .tool-card p{font-size:13px;color:var(--text2);line-height:1.6;flex:1}
+    .tool-card p{font-size:14px;color:var(--text2);line-height:1.6;flex:1}
     .tool-tags{display:flex;gap:5px;flex-wrap:wrap}
     .tool-tag{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--bg3);color:var(--text3);border:0.5px solid var(--border)}
     .tool-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:0.5px solid var(--border);font-size:11px}
@@ -99,7 +99,7 @@
     .building-strip-inner{max-width:920px;margin:0 auto;display:flex;align-items:flex-start;gap:14px}
     .building-icon{font-size:20px;flex-shrink:0;margin-top:2px}
     .building-title{font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:4px}
-    .building-desc{font-size:13px;color:var(--text2);line-height:1.6}
+    .building-desc{font-size:14px;color:var(--text2);line-height:1.6}
 
     /* ── EWM CONCEPTS ── */
     .concepts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -107,7 +107,7 @@
     @media(max-width:400px){.concepts-grid{grid-template-columns:1fr}}
     .concept-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:14px 16px}
     .concept-name{font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:4px}
-    .concept-desc{font-size:11px;color:var(--text3);line-height:1.5}
+    .concept-desc{font-size:12px;color:var(--text3);line-height:1.5}
 
     /* ── EXPERIENCE ── */
     .exp-list{display:flex;flex-direction:column;gap:14px}
@@ -115,7 +115,7 @@
     @media(max-width:500px){.exp-card{grid-template-columns:1fr}}
     .exp-role{font-size:14px;font-weight:600;margin-bottom:2px}
     .exp-company{font-size:13px;color:var(--accent2);margin-bottom:6px}
-    .exp-desc{font-size:12px;color:var(--text2);line-height:1.6}
+    .exp-desc{font-size:13px;color:var(--text2);line-height:1.6}
     .exp-date{font-size:11px;color:var(--text3);white-space:nowrap;text-align:right}
     .exp-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
     .exp-tag{font-size:10px;padding:2px 7px;border-radius:99px;background:var(--bg3);color:var(--text3);border:0.5px solid var(--border)}
@@ -127,7 +127,7 @@
     .skill-group{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rl);padding:16px 18px}
     .skill-group-title{font-size:11px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
     .skill-list{display:flex;flex-direction:column;gap:5px}
-    .skill-item{font-size:12px;color:var(--text2);padding:4px 0;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:6px}
+    .skill-item{font-size:13px;color:var(--text2);padding:4px 0;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:6px}
     .skill-item:last-child{border-bottom:none}
     .skill-dot{width:4px;height:4px;border-radius:50%;background:var(--accent2);flex-shrink:0}
 
@@ -145,10 +145,10 @@
     /* ── ABOUT ── */
     .about-grid{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
     @media(max-width:700px){.about-grid{grid-template-columns:1fr}}
-    .about-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(99,102,241,.3);flex-shrink:0}
+    .about-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center 10%;border:2px solid rgba(99,102,241,.3);flex-shrink:0}
     .about-name{font-size:18px;font-weight:700;margin-bottom:4px}
     .about-title{font-size:13px;color:var(--accent2);margin-bottom:12px}
-    .about-bio{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:16px}
+    .about-bio{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:16px}
     .about-links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
     .about-link{font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;border:0.5px solid var(--border2);color:var(--text2);background:var(--bg3);transition:color .15s,border-color .15s}
     .about-link:hover{color:var(--text);border-color:var(--border2)}
@@ -174,7 +174,7 @@
     .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     @media(max-width:700px){.contact-grid{grid-template-columns:1fr}}
     .contact-info h3{font-size:16px;font-weight:600;margin-bottom:8px}
-    .contact-info p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px}
+    .contact-info p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:16px}
     .contact-detail{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2);margin-bottom:8px}
     .contact-detail a{color:var(--accent2)}
     .contact-detail a:hover{text-decoration:underline}
@@ -225,7 +225,7 @@
 
 <!-- Hero -->
 <div class="hero">
-  <div class="hero-eyebrow"><div class="hero-dot"></div>SAP EWM · Supply Chain Operations · Pharma & Medical Devices</div>
+  <div class="hero-eyebrow"><div class="hero-dot"></div>SAP EWM · Supply Chain & Operations · Warehouse Execution</div>
   <div class="hero-photo-wrap">
     <img src="kaushika.jpg" alt="Kaushika Naik" class="hero-photo"/>
   </div>
@@ -242,8 +242,8 @@
   </div>
   <div class="stats">
     <div class="stat"><div class="stat-value">3</div><div class="stat-label">Interactive tools</div></div>
-    <div class="stat"><div class="stat-value">15+</div><div class="stat-label">SAP transactions referenced</div></div>
-    <div class="stat"><div class="stat-value">6</div><div class="stat-label">EWM scenarios simulated</div></div>
+    <div class="stat"><div class="stat-value">18</div><div class="stat-label">SAP transactions referenced</div></div>
+    <div class="stat"><div class="stat-value">6</div><div class="stat-label">Inbound scenarios simulated</div></div>
     <div class="stat"><div class="stat-value">Solo</div><div class="stat-label">Built end-to-end</div></div>
   </div>
 </div>
@@ -278,7 +278,7 @@
       <div class="featured-stats">
         <div class="fstat"><div class="fstat-val">5</div><div class="fstat-lbl">Tabs</div></div>
         <div class="fstat"><div class="fstat-val">10</div><div class="fstat-lbl">Default SKUs</div></div>
-        <div class="fstat"><div class="fstat-val">2</div><div class="fstat-lbl">Storage pools</div></div>
+        <div class="fstat"><div class="fstat-val">LG05</div><div class="fstat-lbl">Cold chain isolated</div></div>
       </div>
     </a>
   </div>
@@ -328,12 +328,12 @@
 </div>
 
 <!-- Currently Building -->
-<div class="building-strip" style="padding:0 40px;margin-bottom:72px">
-  <div class="building-strip-inner">
-    <div class="building-icon">🔧</div>
+<div style="max-width:1000px;margin:0 auto 72px;padding:0 40px">
+  <div style="background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(45,212,191,.06));border:0.5px solid rgba(99,102,241,.25);border-radius:16px;padding:22px 28px;display:flex;align-items:flex-start;gap:16px">
+    <div style="font-size:22px;flex-shrink:0;margin-top:2px">🔧</div>
     <div>
-      <div class="building-title">Currently building</div>
-      <div class="building-desc">Connecting all three tools into an end-to-end supply chain simulation — slotting optimizer zone assignments feed directly into GR putaway routing, outcomes measured in the KPI dashboard. Mirrors how SAP EWM putaway strategy configuration in SPRO connects to business KPIs in real implementations.</div>
+      <div style="font-size:11px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Currently building</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.7">Integrating all three tools into a connected end-to-end supply chain simulation — slotting optimizer zone assignments feed directly into GR putaway routing, outcomes tracked in the KPI dashboard. Also building a fourth tool: an <strong style="color:var(--text)">Inventory Optimization Model</strong> covering Economic Order Quantity (EOQ), safety stock, and reorder point calculations. Mirrors how SAP EWM putaway strategy, IBP demand planning, and MM-IM inventory management connect in real implementations.</div>
     </div>
   </div>
 </div>
@@ -415,7 +415,7 @@
       <div>
         <div class="exp-role">Project Manager</div>
         <div class="exp-company">Saayam For All · Non-profit · Part-time</div>
-        <div class="exp-desc">Led end-to-end project delivery for a non-profit platform, coordinating cross-functional teams across feature rollouts. Managed sprint planning across 15–20 active tasks per cycle, improving on-time delivery by ~25%. Reduced average milestone cycle time by ~30% through structured prioritization and workload rebalancing. Tools: GitHub, Microsoft Project, Trello.</div>
+        <div class="exp-desc">Led end-to-end project delivery for a non-profit platform, coordinating cross-functional teams across feature rollouts. Managed sprint planning across 15–20 active tasks per cycle, improving on-time delivery by ~25%. Reduced average milestone cycle time by ~30% through structured prioritization and workload rebalancing.</div>
         <div class="exp-tags">
           <span class="exp-tag">Sprint Planning</span>
           <span class="exp-tag">Kanban</span>
@@ -433,7 +433,7 @@
 <div class="section" id="skills">
   <div class="section-header">
     <h2>Skills</h2>
-    <p>Applied across coursework, projects, and professional roles.</p>
+
   </div>
   <div class="skills-grid">
 
@@ -518,21 +518,25 @@
       <div class="cert-icon">⚙️</div>
       <div class="cert-name">Lean Six Sigma Yellow Belt</div>
       <div class="cert-issuer">CSSC · Issued Apr 2023</div>
+      <div class="cert-badge" style="background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.3)">CSSC Certified</div>
     </div>
     <div class="cert-card">
       <div class="cert-icon">📊</div>
       <div class="cert-name">SAP S/4HANA Essential Training</div>
       <div class="cert-issuer">LinkedIn · Issued Jun 2026</div>
+      <div class="cert-badge" style="background:rgba(255,255,255,.05);color:var(--text3);border-color:var(--border2)">Completed</div>
     </div>
     <div class="cert-card">
       <div class="cert-icon">📋</div>
       <div class="cert-name">Foundations of Project Management</div>
       <div class="cert-issuer">Google / Coursera · Jun 2024</div>
+      <div class="cert-badge" style="background:rgba(255,255,255,.05);color:var(--text3);border-color:var(--border2)">Completed</div>
     </div>
     <div class="cert-card">
       <div class="cert-icon">🤖</div>
       <div class="cert-name">Google AI Essentials</div>
       <div class="cert-issuer">Coursera · Jan 2025</div>
+      <div class="cert-badge" style="background:rgba(255,255,255,.05);color:var(--text3);border-color:var(--border2)">Completed</div>
     </div>
   </div>
 </div>
@@ -543,14 +547,28 @@
     <h2>Writing</h2>
   </div>
   <div class="writing-card">
-    <div style="display:flex;align-items:center;gap:16px">
+    <div style="display:flex;align-items:flex-start;gap:16px;flex:1">
       <div class="writing-icon">✍️</div>
-      <div class="writing-text">
+      <div class="writing-text" style="flex:1">
         <h3>The Flow of Things</h3>
-        <p>Writing about supply chain operations, SAP EWM, warehouse management, and the intersection of technology and logistics. Covering the concepts behind the tools — for practitioners, not textbooks.</p>
+        <p style="margin-bottom:12px">A publication about the systems behind everyday life — supply chains, operations, and the decisions that quietly keep industries running.</p>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <a href="https://kaushikanaikr.substack.com/p/the-vial-looked-fine-that-was-the" target="_blank" style="font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px;transition:color .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">
+            <span style="font-size:10px;background:var(--amber-fill);color:var(--amber);border:0.5px solid rgba(245,158,11,.3);border-radius:99px;padding:1px 7px;white-space:nowrap">Cold Chain</span>
+            The Vial Looked Fine. That Was the Problem. →
+          </a>
+          <a href="https://kaushikanaikr.substack.com/p/zaras-real-product-isnt-clothes-its" target="_blank" style="font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px;transition:color .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">
+            <span style="font-size:10px;background:var(--teal-fill);color:var(--teal);border:0.5px solid rgba(45,212,191,.3);border-radius:99px;padding:1px 7px;white-space:nowrap">Strategy</span>
+            Zara's Real Product Isn't Clothes. It's a Feedback Loop. →
+          </a>
+          <a href="https://kaushikanaikr.substack.com/p/the-store-that-sells-less-to-win" target="_blank" style="font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px;transition:color .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">
+            <span style="font-size:10px;background:var(--accent3);color:var(--accent2);border:0.5px solid rgba(99,102,241,.3);border-radius:99px;padding:1px 7px;white-space:nowrap">Operations</span>
+            The Store That Sells Less to Win More — Costco →
+          </a>
+        </div>
       </div>
     </div>
-    <a href="https://kaushikanaikr.substack.com" target="_blank" class="writing-link">Read on Substack ↗</a>
+    <a href="https://kaushikanaikr.substack.com" target="_blank" class="writing-link" style="white-space:nowrap;align-self:center">All posts ↗</a>
   </div>
 </div>
 
@@ -564,7 +582,7 @@
     <div>
       <div class="about-name">Kaushika Naik</div>
       <div class="about-title">Supply Chain & Operations · MS Technology Management, UIUC Gies</div>
-      <p class="about-bio">MS Technology Management from Gies College of Business, University of Illinois Urbana-Champaign (GPA: 3.83, Scholarship Recipient). Deep focus in SAP Extended Warehouse Management (EWM), pharma supply chain operations, and warehouse execution systems.</p>
+      <p class="about-bio">MS Technology Management from Gies College of Business, University of Illinois Urbana-Champaign (GPA: 3.83, Scholarship Recipient). Deep focus in SAP Extended Warehouse Management (EWM), warehouse execution systems, and supply chain operations across regulated industries.</p>
       <p class="about-bio">Built three interactive supply chain tools that model real SAP EWM warehouse logic — from slotting strategy through inbound execution to KPI measurement. Each iteration improved on gaps identified in the previous version, mirroring how real supply chain analysts approach process improvement.</p>
       <p class="about-bio">Background spanning supply chain operations, GTM strategy, and cross-functional program management across a food-tech startup, a B2B AR software firm, and non-profit delivery. Open to relocation. Fluent in English and Hindi.</p>
       <div class="about-links">
@@ -629,7 +647,12 @@
         </div>
         <div class="form-group">
           <label>Message</label>
-          <textarea name="message" placeholder="I'd like to discuss a Supply Chain Analyst opportunity..." required></textarea>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+            <button type="button" onclick="setMsg('I'd like to discuss a Supply Chain Analyst opportunity with you.')" style="font-size:11px;padding:3px 9px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">💼 Job opportunity</button>
+            <button type="button" onclick="setMsg('I came across your portfolio and would love to connect about WMS / EWM roles.')" style="font-size:11px;padding:3px 9px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">🔧 WMS/EWM role</button>
+            <button type="button" onclick="setMsg('I'd love to learn more about your supply chain portfolio projects.')" style="font-size:11px;padding:3px 9px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">📊 Portfolio question</button>
+          </div>
+          <textarea name="message" id="msg-field" placeholder="I'd like to discuss a Supply Chain Analyst opportunity..." required></textarea>
         </div>
         <button type="submit" class="form-submit">Send message →</button>
         <div class="form-success" id="form-success">✓ Message sent — I'll get back to you within 24 hours.</div>
@@ -647,6 +670,12 @@
 </footer>
 
 <script>
+// Message prompt chips
+function setMsg(text) {
+  document.getElementById('msg-field').value = text;
+  document.getElementById('msg-field').focus();
+}
+
 // Contact form submission
 document.getElementById('contact-form').addEventListener('submit', async function(e) {
   e.preventDefault();
