@@ -28,7 +28,9 @@
     .nav-links a:hover{color:var(--text)}
     .nav-cta{font-size:12px;font-weight:500;background:var(--accent);color:#fff!important;padding:6px 14px;border-radius:6px;transition:opacity .15s}
     .nav-cta:hover{opacity:.88}
-    @media(max-width:600px){.nav-links{gap:14px}.nav-links a:not(.nav-cta){display:none}}
+    .nav-cta-secondary{font-size:12px;font-weight:500;background:var(--bg3);color:var(--text)!important;border:0.5px solid var(--border2);padding:6px 14px;border-radius:6px;transition:background .15s,border-color .15s}
+    .nav-cta-secondary:hover{background:var(--bg4);border-color:var(--border2)}
+    @media(max-width:600px){.nav-links{gap:14px}.nav-links a:not(.nav-cta):not(.nav-cta-secondary){display:none}}
 
     /* ── OPEN TO WORK BANNER ── */
     .open-banner{background:linear-gradient(90deg,rgba(99,102,241,.15),rgba(45,212,191,.1));border-bottom:0.5px solid rgba(99,102,241,.2);padding:10px 40px;text-align:center;font-size:13px;color:var(--text2)}
@@ -224,6 +226,7 @@
     <a href="#skills">Skills</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
+    <a href="Kaushika_Naik_Resume.pdf" target="_blank" download class="nav-cta-secondary">Resume ↓</a>
     <a href="https://kaushikanaikr.substack.com" target="_blank" class="nav-cta">The Flow of Things ↗</a>
   </div>
 </nav>
@@ -490,12 +493,6 @@
     <h2>Certifications</h2>
   </div>
   <div class="cert-grid">
-    <div class="cert-card featured-cert">
-      <div class="cert-icon">🏅</div>
-      <div class="cert-name">Business Processes for Supply Chain Execution in SAP S/4HANA Cloud Private Edition</div>
-      <div class="cert-issuer">SAP · Issued Jun 2026</div>
-      <div class="cert-badge">SAP Issued</div>
-    </div>
     <div class="cert-card featured-cert">
       <div class="cert-icon">🏅</div>
       <div class="cert-name">Exploring Business Processes for Supply Chain Execution in SAP S/4HANA Cloud Private Edition</div>
