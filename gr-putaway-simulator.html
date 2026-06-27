@@ -43,6 +43,19 @@
     .sc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
     @media(max-width:700px){.sc-grid{grid-template-columns:repeat(3,1fr)}}
     .sc-btn{padding:9px 6px;border-radius:var(--r);border:1.5px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;text-align:center;font-size:11px;font-weight:500;transition:all .15s;line-height:1.4}
+
+    /* ── Collapsed header/scenario state (mid-flow) ── */
+    header.is-collapsed .subtitle, header.is-collapsed .badges{display:none}
+    header.is-collapsed{margin-bottom:10px}
+    header.is-collapsed h1{font-size:15px;margin-bottom:0}
+    header.is-collapsed .vtag{transform:scale(.85)}
+    .sc-bar.is-collapsed{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .sc-bar.is-collapsed .sc-grid,.sc-bar.is-collapsed h3{display:none}
+    .sc-summary{display:none;align-items:center;gap:10px;font-size:13px;color:var(--text2)}
+    .sc-bar.is-collapsed .sc-summary{display:flex}
+    .sc-summary strong{color:var(--text);font-weight:600}
+    .sc-change-btn{font-size:12px;font-weight:500;color:var(--accent2);background:none;border:none;cursor:pointer;padding:4px 10px;border-radius:var(--r);transition:background .15s}
+    .sc-change-btn:hover{background:var(--bg3)}
     .sc-btn:hover{border-color:var(--text3);color:var(--text)}
     .sc-btn.active{border-color:var(--accent);background:var(--accent);color:#0f1117}
     .sc-icon{font-size:18px;display:block;margin-bottom:3px}
@@ -240,7 +253,7 @@
 
 <div class="wrap">
 
-  <header style="margin-bottom:16px">
+  <header style="margin-bottom:16px" id="mainHeader">
     <h1>SAP EWM — GR to Putaway Simulator <span class="vtag">V4</span></h1>
     <p class="subtitle">Complete Goods Receipt (GR) to putaway flow in SAP Extended Warehouse Management (EWM).<br>
     Select a scenario — V4 adds full date/time scheduling, door classification, dock conflict handling, over-delivery, and field validation.</p>
@@ -255,9 +268,13 @@
   </header>
 
   <!-- Scenario selector -->
-  <div class="sc-bar">
+  <div class="sc-bar" id="scBar">
     <h3>Select a scenario</h3>
     <div class="sc-grid" id="sc-grid"></div>
+    <div class="sc-summary" id="scSummary">
+      <span id="scSummaryText"></span>
+      <button class="sc-change-btn" onclick="expandScenarios()">Change scenario</button>
+    </div>
   </div>
 
   <!-- Progress -->
@@ -394,7 +411,18 @@ function renderSC(){
 function selectSC(id){
   sc=id; step=0; selectedDoor=null; selectedVendorIdx=0;
   Object.keys(saved).forEach(k=>delete saved[k]);
-  renderSC(); buildProg(); renderStep();
+  renderSC(); buildProg(); renderStep(); expandScenarios();
+}
+
+function collapseScenarios(){
+  const s=getSC();
+  document.getElementById('mainHeader').classList.add('is-collapsed');
+  document.getElementById('scBar').classList.add('is-collapsed');
+  document.getElementById('scSummaryText').innerHTML=`<strong>${s.icon} ${s.label}</strong> — Step ${step+1} of 6`;
+}
+function expandScenarios(){
+  document.getElementById('mainHeader').classList.remove('is-collapsed');
+  document.getElementById('scBar').classList.remove('is-collapsed');
 }
 
 // ─── PROGRESS ────────────────────────────────────────────────────────────────
@@ -866,13 +894,18 @@ function showErr(id,msg){
 function clearErr(id){ const el=document.getElementById(id); if(el) el.innerHTML=''; }
 
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
+function scrollToProg(){
+  const el=document.getElementById('prog');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
 function nextStep(){
   if(!validateStep()) return;
   if(step<5){ step++; buildProg(); renderStep(); }
-  window.scrollTo({top:0,behavior:'smooth'});
+  if(step>0) collapseScenarios();
+  scrollToProg();
 }
-function prevStep(){ if(step>0){ step--; buildProg(); renderStep(); } window.scrollTo({top:0,behavior:'smooth'}); }
-function jumpTo(i){ if(i>step) return; step=i; buildProg(); renderStep(); window.scrollTo({top:0,behavior:'smooth'}); }
+function prevStep(){ if(step>0){ step--; buildProg(); renderStep(); } if(step>0) collapseScenarios(); else expandScenarios(); scrollToProg(); }
+function jumpTo(i){ if(i>step) return; step=i; buildProg(); renderStep(); if(step>0) collapseScenarios(); else expandScenarios(); scrollToProg(); }
 
 // ─── SUMMARY + DECISION TREE ─────────────────────────────────────────────────
 function showSummary(){
@@ -1023,7 +1056,7 @@ function showSummary(){
 function restart(){
   step=0; selectedDoor=null;
   Object.keys(saved).forEach(k=>delete saved[k]);
-  buildProg(); renderStep();
+  buildProg(); renderStep(); expandScenarios();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
